@@ -16,7 +16,7 @@
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
-                         @can('create payment')
+                        @can('create payment')
                             @php
                                 $payment = \App\Models\Payment::get();
                             @endphp
@@ -26,16 +26,17 @@
                                 </x-nav-link>
                             @else
                                 @if($payment->count() == 1)
-                                    <x-nav-link :href="route('payment.edit',$payment)">
+                                    <x-nav-link :href="route('payment.edit',$payment->first())">
                                         {{ __('Payment') }}
                                     </x-nav-link>
-                                @else
-                                    <x-nav-link :href="route('payment.edit',$payment)">
-                                        {{ __('Payment') }}
-                                    </x-nav-link>
+                                    {{--                            @else--}}
+                                    {{--                                <x-nav-link :href="route('payment.edit',$payment->where('is_default', true)->first())">--}}
+                                    {{--                                    {{ __('Payment') }}--}}
+                                    {{--                                </x-nav-link>--}}
                                 @endif
                             @endif
-                         @endcan
+
+                        @endcan
                         @can('create server')
                             <x-nav-link :href="route('server.index')" :active="request()->routeIs('server*')">
                                 {{ __('Server') }}
