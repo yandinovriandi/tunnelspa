@@ -25,7 +25,9 @@ Route::middleware('splade')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/dashboard',[\App\Http\Controllers\DashboardController::class,'index'])->name('dashboard');
 
-        Route::resource('server', \App\Http\Controllers\ServerController::class);
+        Route::middleware('permission:create server')->group(function (){
+            Route::resource('server', \App\Http\Controllers\ServerController::class);
+        });
         Route::resource('tunnels', \App\Http\Controllers\TunnelController::class);
 //        Route::resource('balance', \App\Http\Controllers\UserBalaceController::class);
         Route::resource('transaction', \App\Http\Controllers\TransactionController::class);

@@ -16,9 +16,11 @@
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('server.index')" :active="request()->routeIs('server*')">
-                            {{ __('Server') }}
-                        </x-nav-link>
+                        @can('create server')
+                            <x-nav-link :href="route('server.index')" :active="request()->routeIs('server*')">
+                                {{ __('Server') }}
+                            </x-nav-link>
+                        @endcan
                         <x-nav-link :href="route('tunnels.index')" :active="request()->routeIs('tunnels*')">
                             {{ __('Tunnels') }}
                         </x-nav-link>
@@ -44,9 +46,11 @@
                         </x-slot>
 
                         <x-slot name="content">
+                            @can('create server')
                             <x-dropdown-link :href="route('server.index')">
                                 {{ __('Server') }}
                             </x-dropdown-link>
+                            @endcan
                             <x-dropdown-link :href="route('tunnels.index')">
                                 {{ __('Tunnels') }}
                             </x-dropdown-link>
