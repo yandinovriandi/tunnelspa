@@ -12,10 +12,15 @@ class TripayRepository
         $apiKey = $payment->api_key;
 
         $curl = curl_init();
-
+        $mode = $payment->mode; // get mode from application config
+        if ($mode === 'local') {
+            $url = 'https://tripay.co.id/api-sandbox/merchant/payment-channel?';
+        } else {
+            $url = 'https://tripay.co.id/api/merchant/payment-channel?';
+        }
         curl_setopt_array($curl, array(
             CURLOPT_FRESH_CONNECT  => true,
-            CURLOPT_URL            => 'https://tripay.co.id/api-sandbox/merchant/payment-channel?',
+            CURLOPT_URL            => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER         => false,
             CURLOPT_HTTPHEADER     => ['Authorization: Bearer '.$apiKey],
