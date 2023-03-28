@@ -30,8 +30,8 @@
     },
     "autoload": {
         "files": [
-            "app/functions/formatRupiah.php",
-            "app/functions/generatePort.php"
+            "app/Functions/formatRupiah.php",
+            "app/Functions/generatePort.php"
         ],
         "psr-4": {
             "App\\": "app/",
