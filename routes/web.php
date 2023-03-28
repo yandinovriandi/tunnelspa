@@ -43,4 +43,4 @@ Route::middleware('splade')->group(function () {
 
     require __DIR__.'/auth.php';
 });
-Route::post('callback',[\App\Http\Controllers\TripayCallbackController::class,'handle'])->name('payment.callback');
+Route::post('confirm-payment',[\App\Http\Controllers\TripayCallbackController::class,'handle'])->name('payment.callback');
