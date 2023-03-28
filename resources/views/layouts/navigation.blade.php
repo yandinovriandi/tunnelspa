@@ -16,6 +16,24 @@
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
+                        @php
+                            $payment = \App\Models\Payment::get();
+                        @endphp
+                        @if($payment->count() == 0)
+                            <x-nav-link :href="route('payment.create')">
+                                {{ __('Payment') }}
+                            </x-nav-link>
+                        @else
+                            @if($payment->count() == 1)
+                                <x-nav-link :href="route('payment.edit',$payment->first())">
+                                    {{ __('Payment') }}
+                                </x-nav-link>
+                            @else
+                                <x-nav-link :href="route('payment.edit',$payment->where('is_default', true)->first())">
+                                    {{ __('Payment') }}
+                                </x-nav-link>
+                            @endif
+                        @endif
                         @can('create server')
                             <x-nav-link :href="route('server.index')" :active="request()->routeIs('server*')">
                                 {{ __('Server') }}
@@ -46,7 +64,26 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            @can('create server')
+                            @php
+                                $payment = \App\Models\Payment::get();
+                            @endphp
+                            @if($payment->count() == 0)
+                                <x-dropdown-link :href="route('payment.create')">
+                                    {{ __('Payment') }}
+                                </x-dropdown-link>
+                            @else
+                                @if($payment->count() == 1)
+                                    <x-dropdown-link :href="route('payment.edit',$payment->first())">
+                                        {{ __('Payment') }}
+                                    </x-dropdown-link>
+                                @else
+                                    <x-dropdown-link :href="route('payment.edit',$payment->where('is_default', true)->first())">
+                                        {{ __('Payment') }}
+                                    </x-dropdown-link>
+                                @endif
+                            @endif
+
+                        @can('create server')
                             <x-dropdown-link :href="route('server.index')">
                                 {{ __('Server') }}
                             </x-dropdown-link>

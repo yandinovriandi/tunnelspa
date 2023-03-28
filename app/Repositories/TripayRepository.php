@@ -4,9 +4,12 @@ namespace App\Repositories;
 
 class TripayRepository
 {
+
     public function getPaymentChannels():array|string
     {
-        $apiKey = 'DEV-YlD4UnxvaKO31MYAJkxFwbEvgHq1pOMiabeWALLW';
+        $payment = \App\Models\Payment::get()->first();
+
+        $apiKey = $payment->api_key;
 
         $curl = curl_init();
 
@@ -30,9 +33,11 @@ class TripayRepository
 
     public function requestTransaction($userBalance,$method)
     {
-        $apiKey       = 'DEV-YlD4UnxvaKO31MYAJkxFwbEvgHq1pOMiabeWALLW';
-        $privateKey   = '0wohw-l3xZA-8kWzi-B1MOh-JmJi7';
-        $merchantCode = 'T7135';
+        $payment = \App\Models\Payment::get()->first();
+        $redirect_url = $payment->url;
+        $apiKey       = $payment->api_key;
+        $privateKey   = $payment->private_key;
+        $merchantCode = $payment->merchant_code;
         $word = '';
         for ($i = 0; $i < 4; $i++) {
             $rand = rand(65, 90); // menghasilkan nilai acak antara 65 dan 90, yang merepresentasikan karakter huruf kapital ASCII
@@ -57,16 +62,21 @@ class TripayRepository
 //                    'image_url'   => 'https://tokokamu.com/product/nama-produk-1.jpg',
                 ]
             ],
-//            'return_url'   => 'https://domainanda.com/redirect',
+            'return_url'   => $redirect_url,
             'expired_time' => (time() + (24 * 60 * 60)), // 24 jam
             'signature'    => hash_hmac('sha256', $merchantCode.$merchantRef.$userBalance, $privateKey)
         ];
 
         $curl = curl_init();
-
+        $mode = $payment->mode; // get mode from application config
+        if ($mode === 'local') {
+            $url = 'https://tripay.co.id/api-sandbox/transaction/create';
+        } else {
+            $url = 'https://tripay.co.id/api/transaction/create';
+        }
         curl_setopt_array($curl, [
             CURLOPT_FRESH_CONNECT  => true,
-            CURLOPT_URL            => 'https://tripay.co.id/api-sandbox/transaction/create',
+            CURLOPT_URL            => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER         => false,
             CURLOPT_HTTPHEADER     => ['Authorization: Bearer '.$apiKey],
@@ -85,15 +95,21 @@ class TripayRepository
 
     public function detailTransaction($reference)
     {
-        $apiKey = 'DEV-YlD4UnxvaKO31MYAJkxFwbEvgHq1pOMiabeWALLW';
+        $payment = \App\Models\Payment::get()->first();
+        $apiKey       = $payment->api_key;
 
         $payload = ['reference'	=> $reference];
 
         $curl = curl_init();
-
+        $mode = $payment->mode; // get mode from application config
+        if ($mode === 'local') {
+            $url = 'https://tripay.co.id/api-sandbox/transaction/detail?' . http_build_query($payload);
+        } else {
+            $url = 'https://tripay.co.id/api/transaction/detail?' . http_build_query($payload);
+        }
         curl_setopt_array($curl, [
             CURLOPT_FRESH_CONNECT  => true,
-            CURLOPT_URL            => 'https://tripay.co.id/api-sandbox/transaction/detail?'.http_build_query($payload),
+            CURLOPT_URL            => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER         => false,
             CURLOPT_HTTPHEADER     => ['Authorization: Bearer '.$apiKey],

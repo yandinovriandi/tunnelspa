@@ -9,8 +9,14 @@ use App\Models\Transaction;
 
 class TripayCallbackController extends Controller
 {
+    protected string $privateKey;
+
+    public function __construct()
+    {
+        $payment = \App\Models\Payment::first();
+            $this->privateKey = $payment->private_key;
+    }
     // Isi dengan private key anda
-    protected string $privateKey = '0wohw-l3xZA-8kWzi-B1MOh-JmJi7';
 
     public function handle(Request $request)
     {

@@ -28,6 +28,9 @@ Route::middleware('splade')->group(function () {
         Route::middleware('permission:create server')->group(function (){
             Route::resource('server', \App\Http\Controllers\ServerController::class);
         });
+
+        Route::resource('payment', \App\Http\Controllers\PaymentController::class);
+
         Route::resource('tunnels', \App\Http\Controllers\TunnelController::class);
 //        Route::resource('balance', \App\Http\Controllers\UserBalaceController::class);
         Route::resource('transaction', \App\Http\Controllers\TransactionController::class);
@@ -40,4 +43,4 @@ Route::middleware('splade')->group(function () {
 
     require __DIR__.'/auth.php';
 });
-Route::post('callback',[\App\Http\Controllers\TripayCallbackController::class,'handle']);
+Route::post('callback',[\App\Http\Controllers\TripayCallbackController::class,'handle'])->name('payment.callback');
