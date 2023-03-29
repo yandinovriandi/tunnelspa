@@ -78,7 +78,7 @@
                         </div>
                     </div>
 
-                    <span onclick="copyCodeToClipboard()" class="hover:cursor-pointer bg-white border text-slate-800 mt-4 group relative block !border-none rounded-xl p-3 shadow lg:p-6">
+                    <span class="hover:cursor-pointer bg-white border text-slate-800 mt-4 group relative block !border-none rounded-xl p-3 shadow lg:p-6">
                                 <div class="mb-2 flex items-center justify-between">
                                     <h4 class="font-mono text-base tracking-tighter sm:text-3xl">Silahkan Copy L2TP Script</h4>
                                     <div class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-900 fade group-hover:bg-red-100 group-hover:text-red-900 lg:h-10 lg:w-10">
@@ -194,16 +194,6 @@
             </div>
         </div>
     </div>
-    <script>
-        function copyCodeToClipboard() {
-            alert('Script berhasil di copy');
-            const el = document.createElement('textarea');
-            el.value = document.querySelector('#code-to-copy').innerText;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-        }
-    </script>
+
 
 </x-app-layout>
