@@ -324,6 +324,7 @@ public function store(Request $request)
         $this->routerOsRepository->deletePortWeb($server, $web);
         $this->routerOsRepository->deletePortWinbox($server, $win);
         $this->routerOsRepository->deletePppSecret($username,$server);
+        $this->routerOsRepository->disablePpp($server);
         $tunnel->delete();
         Toast::title('Success deleted.')
             ->message('Tunnel berhasil di hapus.')
