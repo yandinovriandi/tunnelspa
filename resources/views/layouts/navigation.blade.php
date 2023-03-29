@@ -94,10 +94,10 @@
                             <x-dropdown-link :href="route('server.index')">
                                 {{ __('Server') }}
                             </x-dropdown-link>
+                                <x-dropdown-link :href="route('tunnels.async')">
+                                    {{ __('Tunnels Sync') }}
+                                </x-dropdown-link>
                             @endcan
-                            <x-dropdown-link :href="route('tunnels.async')">
-                                {{ __('Tunnels Sync') }}
-                            </x-dropdown-link>
                             <x-dropdown-link :href="route('tunnels.index')">
                                 {{ __('Tunnels') }}
                             </x-dropdown-link>
