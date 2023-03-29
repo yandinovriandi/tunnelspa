@@ -67,6 +67,9 @@
                         </x-slot>
 
                         <x-slot name="content">
+                            <x-dropdown-link :href="route('dashboard')">
+                                {{ __('Dashboard') }}
+                            </x-dropdown-link>
                             @can('create payment')
                             @php
                                 $payment = \App\Models\Payment::get();
@@ -92,6 +95,9 @@
                                 {{ __('Server') }}
                             </x-dropdown-link>
                             @endcan
+                            <x-dropdown-link :href="route('tunnels.async')">
+                                {{ __('Tunnels Sync') }}
+                            </x-dropdown-link>
                             <x-dropdown-link :href="route('tunnels.index')">
                                 {{ __('Tunnels') }}
                             </x-dropdown-link>

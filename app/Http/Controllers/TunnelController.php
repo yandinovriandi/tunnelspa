@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Server;
 use App\Models\Tunnel;
+use App\Models\User;
 use App\Repositories\RouterOsRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,7 +45,25 @@ class TunnelController extends Controller
 
         ]);
     }
+    public function async()
+    {
+        return view('tunnel.async',[
+            'tunnels' => SpladeTable::for(Tunnel::class)
+                ->column('username',
+                    sortable: true
+                )->withGlobalSearch(columns: ['username', 'server'])
+                ->column('username')
+                ->column('domain')
+                ->column('server')
+                ->column('auto_renew')
+                ->column('status')
+                ->column('expired')
+                ->column('actions')
+                ->paginate(5)
+            ,
 
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -243,6 +262,16 @@ public function store(Request $request)
             'tunnel' => $tunnel
         ]);
     }
+    public function sync(Tunnel $tunnel)
+    {
+        $servers = Server::get();
+        $users = User::get();
+        return view('tunnel.sync',[
+            'tunnel' => $tunnel,
+            'servers' => $servers,
+            'users' => $users
+        ]);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -294,6 +323,66 @@ public function store(Request $request)
         return to_route('tunnels.show', $tunnel);
     }
 
+    public function reasync(Request $request, Tunnel $tunnel)
+    {
+        $sid = $request->server_id;
+        $server = Server::where('id', $sid)->first();
+        $request->validate([
+            'password' => ['required'],
+        ]);
+        $uid = $request->user_id;
+        $password = $request->password;
+        $to_ports_web = $request->to_ports_web;
+        $to_ports_api = $request->to_ports_api;
+        $to_ports_winbox = $request->to_ports_winbox;
+//        $tunnel = Tunnel::where('username', $tunnel->username)->first();
+        $tunnel->update([
+            'server_id' => $sid,
+            'user_id' => $uid,
+            'password' => $password,
+            'to_ports_web' =>  $to_ports_web,
+            'to_ports_api' =>  $to_ports_api,
+            'to_ports_winbox' =>  $to_ports_winbox,
+
+            'username' => $tunnel->username,
+            'ip_server' => $server->host,
+            'server' => $server->name,
+            'auto_renew' => $tunnel->auto_renew,
+            'local_addrss' => $tunnel->local_address,
+            'ip_tunnel' => $tunnel->ip_tunnel,
+            'domain' => $server->domain,
+            'api' => $tunnel->api,
+            'winbox' => $tunnel->winbox,
+            'web' => $tunnel->web,
+        ]);
+
+        $username = $tunnel->username;
+
+        // ==============api================
+        $rapi = $request->api;
+        $pap = $tunnel->api;
+        $this->routerOsRepository->updatePortApi($rapi, $pap,$server);
+        // ==============api================
+
+        // ==============winbox================
+        $pwin = $request->winbox;
+        $win = $tunnel->winbox;
+        $this->routerOsRepository->updatePortWinbox($pwin, $win,$server);
+        // ==============winbox================
+
+        // ==============web================
+        $pweb = $request->web;
+        $web = $tunnel->web;
+        $this->routerOsRepository->updatePortWeb($pweb, $web,$server);
+        // ==============web================
+        $this->routerOsRepository->updatePassPpp($username, $password,$server);
+
+        Toast::title('Success reasync Tunnel.')
+            ->message('Anda berhasil mengupdate tunnel remote.')
+            ->backdrop()
+            ->autoDismiss(2);
+        return to_route('tunnels.show', $tunnel);
+    }
     /**
      * Remove the specified resource from storage.
      */

@@ -28,6 +28,9 @@ Route::middleware('splade')->group(function () {
         Route::middleware('permission:create server')->group(function (){
             Route::resource('server', \App\Http\Controllers\ServerController::class);
         });
+        Route::get('tunnels/async',[\App\Http\Controllers\TunnelController::class,'async'])->name('tunnels.async');
+        Route::get('tunnels/{tunnel}/sync',[\App\Http\Controllers\TunnelController::class,'sync'])->name('tunnels.sync');
+        Route::put('tunnels/{tunnel}/reasync',[\App\Http\Controllers\TunnelController::class,'reasync'])->name('tunnels.reasync');
 
         Route::resource('payment', \App\Http\Controllers\PaymentController::class);
 
