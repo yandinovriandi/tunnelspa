@@ -348,7 +348,7 @@ class RouterOsRepository
      * @throws BadCredentialsException
      * @throws ConfigException
      */
-    public function disablePpp($server)
+    public function disableWithSch($server)
     {
         $client = $this->getMikrotik($server);
         $tunnels = Tunnel::get();
@@ -384,4 +384,44 @@ class RouterOsRepository
             }
         }
     }
+
+    /**
+     * @throws ConnectException
+     * @throws QueryException
+     * @throws ClientException
+     * @throws BadCredentialsException
+     * @throws ConfigException
+     */
+    public function disablePpp($server)
+    {
+        $client = $this->getMikrotik($server);
+        $tunnels = Tunnel::get();
+        foreach ($tunnels as $tunnel) {
+                $tunnel->update([
+                    'status' => 'nonaktif',
+                ]);
+                $toDisable = 'yes';
+                $disableTunnel = new Query('/ppp/secret/print');
+                $disableTunnel->where('name', $tunnel->username);
+                $disabletnls = $client->query($disableTunnel)->read();
+
+                foreach ($disabletnls as $dtnl) {
+                    $disable = (new Query('/ppp/secret/set')) // change variable name for clarity
+                    ->where('name', $tunnel->username)
+                        ->equal('.id', $dtnl['.id'])
+                        ->equal('disabled', $toDisable);
+                    $client->query($disable)->read();
+                }
+
+                $activeTunnels = $client->query('/ppp/active/print', ['?name=' . $tunnel->username])->read();
+
+                foreach ($activeTunnels as $actv) {
+                    $remove = (new Query('/ppp/active/remove'))
+                        ->where('.id', $actv['.id']);
+                    $client->query($remove)->read();
+                }
+                \Log::info("Akun tunnel $tunnel->username berhasil di-suspend pada " . date('Y-m-d H:i:s'));
+            }
+    }
+
 }
