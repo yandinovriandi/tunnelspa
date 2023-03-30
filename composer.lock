@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c1089331060a90110764c5a40a93d2f",
+    "content-hash": "13f8ad2d89acfe7dda85760e37b9ed35",
     "packages": [
         {
             "name": "brick/math",
@@ -2521,6 +2521,58 @@
                 "source": "https://github.com/protonemedia/laravel-splade-breeze"
             },
             "time": "2023-02-28T16:22:47+00:00"
+        },
+        {
+            "name": "protoqol/prequel",
+            "version": "v1.22.61",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Protoqol/Prequel.git",
+                "reference": "358d80ae67488b59af6495c9e9a5a53fb5dabd37"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Protoqol/Prequel/zipball/358d80ae67488b59af6495c9e9a5a53fb5dabd37",
+                "reference": "358d80ae67488b59af6495c9e9a5a53fb5dabd37",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.6",
+                "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.7",
+                "phpmd/phpmd": "^2.6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Protoqol\\Prequel\\PrequelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Protoqol\\Prequel\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Quinten Schorsij",
+                    "email": "quinten@protoqol.xyz"
+                }
+            ],
+            "description": "Clear and concise database management.",
+            "support": {
+                "issues": "https://github.com/Protoqol/Prequel/issues",
+                "source": "https://github.com/Protoqol/Prequel/tree/v1.22.61"
+            },
+            "time": "2021-10-01T20:48:03+00:00"
         },
         {
             "name": "psr/container",
