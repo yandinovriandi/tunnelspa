@@ -12,6 +12,11 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
+use RouterOS\Exceptions\BadCredentialsException;
+use RouterOS\Exceptions\ClientException;
+use RouterOS\Exceptions\ConfigException;
+use RouterOS\Exceptions\ConnectException;
+use RouterOS\Exceptions\QueryException;
 
 class TunnelController extends Controller
 {
@@ -320,16 +325,58 @@ public function store(Request $request)
         $pap = $tunnel->api;
         $win = $tunnel->winbox;
         $web = $tunnel->web;
-        $this->routerOsRepository->disablePpp($server);
+        $this->routerOsRepository->disablePpp($server,$username);
         $this->routerOsRepository->deletePortApi($server, $pap);
         $this->routerOsRepository->deletePortWeb($server, $web);
         $this->routerOsRepository->deletePortWinbox($server, $win);
         $this->routerOsRepository->deletePppSecret($username,$server);
+        $this->routerOsRepository->deleteActiveSecret($server, $username);
         $tunnel->delete();
         Toast::title('Success deleted.')
             ->message('Tunnel berhasil di hapus.')
             ->backdrop()
             ->autoDismiss(2);
         return to_route('tunnels.index');
+    }
+
+    /**
+     * @throws ClientException
+     * @throws ConnectException
+     * @throws QueryException
+     * @throws BadCredentialsException
+     * @throws ConfigException
+     */
+    public function removeActive(Tunnel $tunnel)
+    {
+        $sid = $tunnel->server_id;
+        $server = Server::where('id', $sid)->first();
+        $username = $tunnel->username;
+        $this->routerOsRepository->deleteActiveSecret($server, $username);
+
+        $tunnel->update([
+            'status' => 'nonaktif'
+        ]);
+        Toast::title('Success disabled.')
+            ->message('Tunnel berhasil di nonaktifkan.')
+            ->backdrop()
+            ->autoDismiss(2);
+        return back();
+    }
+
+    /**
+     * @throws ClientException
+     * @throws ConnectException
+     * @throws QueryException
+     * @throws BadCredentialsException
+     * @throws ConfigException
+     */
+    public function cekExpiredTunnels()
+    {
+        $tunnels = Tunnel::get();
+        foreach ($tunnels as $tunnel) {
+            $server = Server::where('id',$tunnel->server_id)->first();
+            $this->routerOsRepository->disableWithSch($server);
+            // gunakan $routerOsRepository untuk melakukan koneksi dan pengaturan pada Mikrotik
+        }
     }
 }

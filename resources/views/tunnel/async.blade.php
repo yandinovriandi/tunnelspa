@@ -91,6 +91,14 @@
                                   <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>
                               </svg>
                               </Link>
+                                  <Link method="POST" href="{{route('tunnels.deactive',$tunnel)}}" class="text-pink-500 hover:text-pink-700">
+{{--                                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">--}}
+{{--                                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>--}}
+{{--                                      <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"></path>--}}
+{{--                                      <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>--}}
+{{--                                  </svg>--}}
+                                      Matikan
+                                  </Link>
                               <Link href="{{route('tunnels.show',$tunnel)}}" class="text-green-500 hover:text-green-700">
                               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -109,15 +117,6 @@
                                   <path d="M9 7.07a7 7 0 0 0 1 13.93a7 7 0 0 0 6.929 -6"></path>
                               </svg>
                               </Link>
-{{--                              <x-splade-modal name="edit-tunnel">--}}
-{{--                                  <x-splade-form :default="$tunnel" method="PUT" :action="route('tunnels.update',$tunnel)">--}}
-{{--                                      <x-splade-input name="password" label="Password" placeholder="*******"/>--}}
-{{--                                      <x-splade-input name="to_ports_winbox" label="Port Winbox" placeholder="8291"/>--}}
-{{--                                      <x-splade-input name="to_ports_api" label="Port Api" placeholder="8728"/>--}}
-{{--                                      <x-splade-input name="to_ports_web" label="Port Web" placeholder="80"/>--}}
-{{--                                      <x-splade-submit class="mt-4"/>--}}
-{{--                                  </x-splade-form>--}}
-{{--                              </x-splade-modal>--}}
                               <Link class="text-red-500 hover:text-red-700"
                                     confirm="Apakah anda yakin akan menghapus tunnel ini..."
                                     confirm-text="Anda yakin?"
@@ -130,8 +129,8 @@
                                   <path d="M14 2a2 2 0 0 1 2 2a1 1 0 0 1 -1.993 .117l-.007 -.117h-4l-.007 .117a1 1 0 0 1 -1.993 -.117a2 2 0 0 1 1.85 -1.995l.15 -.005h4z" stroke-width="0" fill="currentColor"></path>
                               </svg>
                               </Link>
-                          </div>
-                       @endcell
+                            </div>
+                        @endcell
                     </x-splade-table>
                 </div>
             </div>

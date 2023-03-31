@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Server;
 use App\Models\Tunnel;
+use App\Models\UserBalace;
 use RouterOS\Client;
 use RouterOS\Config;
 use RouterOS\Exceptions\BadCredentialsException;
@@ -348,7 +349,7 @@ class RouterOsRepository
      * @throws BadCredentialsException
      * @throws ConfigException
      */
-    public function disableWithSch($server)
+    public function disableWithSch($server): void
     {
         $client = $this->getMikrotik($server);
         $tunnels = Tunnel::get();
@@ -357,33 +358,78 @@ class RouterOsRepository
             if ($tunnel->status == 'nonaktif') {
                 \Log::info('Tunnel ' . $tunnel->username . ' belum expired ' . date('Y-m-d H:i:s'));
             } elseif ($expired) { // check if the tunnel is expired
-                $tunnel->update([
-                    'status' => 'nonaktif',
-                ]);
+                $userBalance = UserBalace::where('user_id', $tunnel->user_id)->first();
                 $toDisable = 'yes';
-                $disableTunnel = new Query('/ppp/secret/print');
-                $disableTunnel->where('name', $tunnel->username);
-                $disabletnls = $client->query($disableTunnel)->read();
+                if ($userBalance && $userBalance->balance > 0 && $tunnel->auto_renew == 'yes') {
+                    $tunnel->update([
+                        'expired' => now()->addMonth(),
+                    ]);
+                    \Log::info("Akun tunnel $tunnel->username berhasil diperpanjang pada " . date('Y-m-d H:i:s'));
+                } else {
+                    $disableTunnel = new Query('/ppp/secret/print');
+                    $disableTunnel->where('name', $tunnel->username);
+                    $disabletnls = $client->query($disableTunnel)->read();
 
-                foreach ($disabletnls as $dtnl) {
-                    $disable = (new Query('/ppp/secret/set')) // change variable name for clarity
-                    ->where('name', $tunnel->username)
-                        ->equal('.id', $dtnl['.id'])
-                        ->equal('disabled', $toDisable);
-                    $client->query($disable)->read();
+                    foreach ($disabletnls as $dtnl) {
+                        $disable = (new Query('/ppp/secret/set')) // change variable name for clarity
+                        ->where('name', $tunnel->username)
+                            ->equal('.id', $dtnl['.id'])
+                            ->equal('disabled', $toDisable);
+                        $client->query($disable)->read();
+                    }
+                    $activeTunnels = $client->query('/ppp/active/print')->read();
+                    foreach ($activeTunnels as $actv) {
+                        $remove = (new Query('/ppp/active/remove'))
+                            ->where('name' , $tunnel->username)
+                            ->equal('.id', $actv['.id']);
+                        $client->query($remove)->read();
+                    }
+                    \Log::info("Akun tunnel $tunnel->username berhasil di-suspend pada " . date('Y-m-d H:i:s'));
                 }
-
-                $activeTunnels = $client->query('/ppp/active/print', ['?name=' . $tunnel->username])->read();
-
-                foreach ($activeTunnels as $actv) {
-                    $remove = (new Query('/ppp/active/remove'))
-                        ->where('.id', $actv['.id']);
-                    $client->query($remove)->read();
-                }
-                \Log::info("Akun tunnel $tunnel->username berhasil di-suspend pada " . date('Y-m-d H:i:s'));
+                $tunnel->update([
+                    'balance' => $userBalance ? $userBalance->balance : 0, // update the balance of the tunnel user
+                ]);
             }
         }
     }
+
+
+//    public function disableWithSch($server)
+//    {
+//        $client = $this->getMikrotik($server);
+//        $tunnels = Tunnel::get();
+//
+//        foreach ($tunnels as $tunnel) {
+//            $expired = now()->gte($tunnel->expired); // compare current time to expired time
+//            if ($tunnel->status == 'nonaktif') {
+//                \Log::info('Tunnel ' . $tunnel->username . ' belum expired ' . date('Y-m-d H:i:s'));
+//            } elseif ($expired) { // check if the tunnel is expired
+//                $tunnel->update([
+//                    'status' => 'nonaktif',
+//                ]);
+//                $toDisable = 'yes';
+//                $disableTunnel = new Query('/ppp/secret/print');
+//                $disableTunnel->where('name', $tunnel->username);
+//                $disabletnls = $client->query($disableTunnel)->read();
+//
+//                foreach ($disabletnls as $dtnl) {
+//                    $disable = (new Query('/ppp/secret/set')) // change variable name for clarity
+//                    ->where('name', $tunnel->username)
+//                        ->equal('.id', $dtnl['.id'])
+//                        ->equal('disabled', $toDisable);
+//                    $client->query($disable)->read();
+//                }
+//                $activeTunnels = $client->query('/ppp/active/print')->read();
+//                foreach ($activeTunnels as $actv) {
+//                    $remove = (new Query('/ppp/active/remove'))
+//                        ->where('name' , $tunnel->username)
+//                        ->equal('.id', $actv['.id']);
+//                    $client->query($remove)->read();
+//                }
+//                \Log::info("Akun tunnel $tunnel->username berhasil di-suspend pada " . date('Y-m-d H:i:s'));
+//            }
+//        }
+//    }
 
     /**
      * @throws ConnectException
@@ -392,7 +438,7 @@ class RouterOsRepository
      * @throws BadCredentialsException
      * @throws ConfigException
      */
-    public function disablePpp($server)
+    public function disablePpp($server,$username): void
     {
         $client = $this->getMikrotik($server);
         $tunnels = Tunnel::get();
@@ -402,26 +448,35 @@ class RouterOsRepository
                 ]);
                 $toDisable = 'yes';
                 $disableTunnel = new Query('/ppp/secret/print');
-                $disableTunnel->where('name', $tunnel->username);
+                $disableTunnel->where('name', $username);
                 $disabletnls = $client->query($disableTunnel)->read();
 
                 foreach ($disabletnls as $dtnl) {
                     $disable = (new Query('/ppp/secret/set')) // change variable name for clarity
-                    ->where('name', $tunnel->username)
+                    ->where('name', $username)
                         ->equal('.id', $dtnl['.id'])
                         ->equal('disabled', $toDisable);
                     $client->query($disable)->read();
                 }
-
-                $activeTunnels = $client->query('/ppp/active/print', ['?name=' . $tunnel->username])->read();
-
-                foreach ($activeTunnels as $actv) {
-                    $remove = (new Query('/ppp/active/remove'))
-                        ->where('.id', $actv['.id']);
-                    $client->query($remove)->read();
-                }
-                \Log::info("Akun tunnel $tunnel->username berhasil di-suspend pada " . date('Y-m-d H:i:s'));
             }
     }
 
+    /**
+     * @throws ClientException
+     * @throws ConnectException
+     * @throws BadCredentialsException
+     * @throws QueryException
+     * @throws ConfigException
+     */
+    public function deleteActiveSecret($server,$username): void
+    {
+        $client=$this->getMikrotik($server);
+         $activeTunnels = $client->query('/ppp/active/print')->read();
+            foreach ($activeTunnels as $actv) {
+                $remove = (new Query('/ppp/active/remove'))
+                    ->where('name' , $username)
+                    ->equal('.id', $actv['.id']);
+                $client->query($remove)->read();
+            }
+        }
 }
