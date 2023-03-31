@@ -13,7 +13,7 @@
     <meta name="robots" content="index, follow">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="English">
-    <meta name="author" content="MikrotikBot">
+    <meta name="author" content="MikrotikBot ">
 
     <!-- Social media share -->
     <meta property="og:title" content="TunnelMikrotikBot - Tunnel Remot Mikrotik Api WInbox">
