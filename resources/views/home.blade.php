@@ -49,8 +49,8 @@
     <div class="container d-flex align-items-center justify-content-between">
         <div class="logo">
             <h1>
-                <a href={{ route('home') }}><img src={{ asset('android-chrome-96x96.png') }} alt=""
-                                                 class="img-fluid">TunnelMikrotikBot</a>
+                <Link href={{ route('home') }}><img src={{ asset('android-chrome-96x96.png') }}
+                                                 class="img-fluid" alt="">TunnelMikrotikBot</Link>
             </h1>
         </div>
 
@@ -58,13 +58,13 @@
         <nav id="navbar" class="navbar">
             <ul>
                 <li>
-                    <a class="nav-link scrollto active" href="#hero">Home</a>
+                    <Link class="nav-link scrollto active" href="#hero">Home</Link>
                 </li>
                 <li>
-                    <a class="nav-link scrollto" href="#pricing">Harga</a>
+                    <Link class="nav-link scrollto" href="#pricing">Harga</Link>
                 </li>
                 <li>
-                    <a class="getstarted" href={{ url('register') }}>Registrasi</a>
+                    <Link class="getstarted" href={{ url('register') }}>Registrasi</Link>
                 </li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
@@ -89,9 +89,12 @@
                             class="btn btn-sm btn-info">mikbotam </span> online, anda bisa
                         menggunakan layanan Tunnel Remot API, WINBOX ataupun WEBFIG dari kami.
                     </h2>
-                    <a href={{ route('register') }} class="download-btn"><i class='bx bxs-user-plus'></i>Registrasi
-                        Sekarang</a>
-                    <a href={{ route('login') }} class="download-btn"><i class='bx bxs-id-card'></i> Login</a>
+                    <Link href={{ route('register') }} class="download-btn"><i class='bx bxs-user-plus'></i>Registrasi
+                        Sekarang
+                    </Link>
+                    <Link href={{ route('login') }} class="download-btn"><i class='bx bxs-id-card'></i>
+                    Login
+                    </Link>
                 </div>
             </div>
             <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img"
@@ -218,7 +221,7 @@
                             <span>Webfig/Userman</span>
                         </li>
                     </ul>
-                    <a href={{ route('register') }} class="get-started-btn">Order Sekarang</a>
+                    <Link href={{ route('register') }} class="get-started-btn">Order Sekarang</Link>
                 </div>
 
                 <div class="col-lg-4 box featured" data-aos="fade-up">
@@ -232,7 +235,7 @@
                             <i class="bx bx-check"></i> Port Api, Winbox, Web
                         </li>
                     </ul>
-                    <a href={{ route('register') }} class="get-started-btn">Order Sekarang</a>
+                    <Link href={{ route('register') }} class="get-started-btn">Order Sekarang</Link>
                 </div>
 
                 <div class="col-lg-4 box" data-aos="fade-left">
@@ -252,7 +255,7 @@
                             <i class="bx bx-check"></i> Mikbotam
                         </li>
                     </ul>
-                    <a href={{ route('register') }} class="get-started-btn">Order Sekarang</a>
+                    <Link href={{ route('register') }} class="get-started-btn">Order Sekarang</Link>
                 </div>
             </div>
         </div>
