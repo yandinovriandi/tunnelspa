@@ -33,7 +33,9 @@
     <link rel="manifest" href="{{asset('landwind/site.webmanifest')}}">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-    <link href="{{asset('landwind/output.css')}}" rel="stylesheet">
+{{--    <link href="{{asset('landwind/output.css')}}" rel="stylesheet">--}}
+    @vite(['resources/js/app.js'])
+    @spladeHead
 </head>
 <body>
 <header class="fixed w-full">
