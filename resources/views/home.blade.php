@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <link rel="canonical" href="https://tunnel.mikrotikbot.com" />
     <meta charset="UTF-8">
@@ -17,7 +17,7 @@
 
     <!-- Social media share -->
     <meta property="og:title" content="TunnelMikrotikBot - Tunnel Remot Mikrotik Api WInbox">
-    <meta property="og:site_name" content=Themesberg>
+    <meta property="og:site_name" content="TunnelMikrotikBot">
     <meta property="og:url" content="https://tunnel.mikrotikbot.com"/>
     <meta property="og:description" content="TunnelMikrotikBot - Tunnel Remot Mikrotik Api WInbox">
     <meta property="og:type" content="">
@@ -33,7 +33,7 @@
     <link rel="manifest" href="{{asset('landwind/site.webmanifest')}}">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-{{--    <link href="{{asset('landwind/output.css')}}" rel="stylesheet">--}}
+    {{--    <link href="{{asset('landwind/output.css')}}" rel="stylesheet">--}}
     @vite(['resources/js/app.js'])
     @spladeHead
 </head>
