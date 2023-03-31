@@ -215,12 +215,14 @@ public function store(Request $request)
         $request->validate([
             'password' => ['required'],
         ]);
+        $auto_renew = $request->auto_renew;
         $password = $request->password;
         $to_ports_web = $request->to_ports_web;
         $to_ports_api = $request->to_ports_api;
         $to_ports_winbox = $request->to_ports_winbox;
 //        $tunnel = Tunnel::where('username', $tunnel->username)->first();
         $tunnel->update([
+            'auto_renew' => $auto_renew,
             'password' => $password,
             'to_ports_web' =>  $to_ports_web,
             'to_ports_api' =>  $to_ports_api,

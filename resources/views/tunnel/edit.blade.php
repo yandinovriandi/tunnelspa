@@ -17,6 +17,7 @@
                         <x-splade-input name="to_ports_winbox" label="Port Winbox" placeholder="8291"/>
                         <x-splade-input name="to_ports_api" label="Port Api" placeholder="8728"/>
                         <x-splade-input name="to_ports_web" label="Port Web" placeholder="80"/>
+                        <x-splade-checkbox name="auto_renew" value="ya" false-value="tidak" label="Perpanjang Otomatis!" />
                         <x-splade-submit class="mt-4"/>
                     </x-splade-form>
                 </div>
