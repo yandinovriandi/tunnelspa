@@ -19,7 +19,7 @@
     <meta property="og:title" content="TunnelMikrotikBot - Tunnel Remot Mikrotik Api WInbox">
     <meta property="og:site_name" content="TunnelMikrotikBot">
     <meta property="og:url" content="https://tunnel.mikrotikbot.com"/>
-    <meta property="og:description" content="TunnelMikrotikBot - Tunnel Remot Mikrotik Api WInbox">
+    <meta property="og:description" content="TunnelMikrotikBot - Tunnel Remot Mikrotik Api WInbox ">
     <meta property="og:type" content="">
     <meta property="og:image" content="">
     <meta name="twitter:card" content="summary" />
