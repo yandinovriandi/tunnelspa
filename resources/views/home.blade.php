@@ -1,4 +1,59 @@
- <x-home-layout>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <link rel="canonical" href="https://tunnel.mikrotikbot.com" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{{--    <title>TunnelMikrotikbot - Tunnel Remot Mikrotik Api WInbox</title>--}}
+
+    <!-- Meta SEO -->
+    <meta name="title" content="TunnelMikrotikbot - Tunnel Remot Mikrotik Api WInbox">
+    <meta name="description" content="Dapatkan tunnel remot mikrotik untuk api atau remot winbox, bisa juga di gunakan untuk mikhmon, mikbotam.">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
+    <meta name="author" content="MikrotikBot ">
+
+    <!-- Social media share -->
+    <meta property="og:title" content="TunnelMikrotikBot - Tunnel Remot Mikrotik Api WInbox">
+    <meta property="og:site_name" content="TunnelMikrotikBot">
+    <meta property="og:url" content="https://tunnel.mikrotikbot.com"/>
+    <meta property="og:description" content="TunnelMikrotikBot - Tunnel Remot Mikrotik Api WInbox ">
+    <meta property="og:type" content="">
+    <meta property="og:image" content="">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@TunnelMikrotikBot" />
+    <meta name="twitter:creator" content="@TunnelMikrotikBot" />
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('lanwind/apple-touch-icon.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('landwind/favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('landwind/favicon-16x16.png')}}">
+    <link rel="manifest" href="{{asset('landwind/site.webmanifest')}}">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+        <link href="{{asset('landwind/output.css')}}" rel="stylesheet">
+{{--    @vite(['resources/js/app.js'])--}}
+{{--    @spladeHead--}}
+</head>
+<body>
+<header class="fixed w-full">
+    <nav class="bg-white border-gray-200 py-2.5 dark:bg-gray-900">
+        <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
+            <Link href="{{route('home')}}" class="flex items-center">
+                <img src="{{asset('landwind/images/logo.svg')}}" class="h-6 mr-3 sm:h-9" alt="Tunnel Logo" />
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-gray-800">TunnelMikrotikBot</span>
+            </Link>
+        </div>
+    </nav>
+</header>
+
+<script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
+</body>
+</html>
+
+<x-home-layout>
     <x-navbar/>
     <section class="bg-white dark:bg-gray-900">
         <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
