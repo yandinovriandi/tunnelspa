@@ -263,7 +263,8 @@ public function store(Request $request)
         $server = Server::where('id', $sid)->first();
         $request->validate([
             'password' => ['required'],
-        ]); 
+        ]);
+        $autoRenew = $request->auto_renew;
         $uid = $request->user_id;
         $password = $request->password;
         $to_ports_web = $request->to_ports_web;
@@ -282,7 +283,7 @@ public function store(Request $request)
             'ip_server' => $server->host,
             'server' => $server->name,
             // Menambahkan logika kondisional di sini
-            'auto_renew' => (!empty($tunnel->auto_renew)) ? $tunnel->auto_renew : 'ya',
+            'auto_renew' => $autoRenew,
             'local_addrss' => $tunnel->local_addrss,
             'ip_tunnel' => $tunnel->ip_tunnel,
             'domain' => $server->domain,
