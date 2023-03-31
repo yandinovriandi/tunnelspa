@@ -30,7 +30,7 @@ class cekTunnelExpiredJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $server = Server::first(); // contoh server, sesuaikan dengan kebutuhan
-        $this->routerOsRepository->disableWithSch($server);
+//        $server = Server::first(); // contoh server, sesuaikan dengan kebutuhan
+//        $this->routerOsRepository->disableWithSch($server);
     }
 }
