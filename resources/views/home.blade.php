@@ -1,255 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="canonical" href="https://tunnel.mikrotikbot.com" />
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TunnelMikrotikbot - Tunnel Remot Mikrotik Api WInbox</title>
-
-    <!-- Meta SEO -->
-    <meta name="title" content="TunnelMikrotikbot - Tunnel Remot Mikrotik Api WInbox">
-    <meta name="description" content="Dapatkan tunnel remot mikrotik untuk api atau remot winbox, bisa juga di gunakan untuk mikhmon, mikbotam.">
-    <meta name="robots" content="index, follow">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="language" content="English">
-    <meta name="author" content="MikrotikBot">
-
-    <!-- Social media share -->
-    <meta property="og:title" content="TunnelMikrotikBot - Tunnel Remot Mikrotik Api WInbox">
-    <meta property="og:site_name" content=Themesberg>
-    <meta property="og:url" content="https://tunnel.mikrotikbot.com"/>
-    <meta property="og:description" content="TunnelMikrotikBot - Tunnel Remot Mikrotik Api WInbox">
-    <meta property="og:type" content="">
-    <meta property="og:image" content="">
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@TunnelMikrotikBot" />
-    <meta name="twitter:creator" content="@TunnelMikrotikBot" />
-
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('lanwind/apple-touch-icon.png')}}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('landwind/favicon-32x32.png')}}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('landwind/favicon-16x16.png')}}">
-    <link rel="manifest" href="{{asset('landwind/site.webmanifest')}}">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-{{--    <link href="{{asset('landwind/output.css')}}" rel="stylesheet">--}}
-    @vite(['resources/js/app.js'])
-    @spladeHead
+    <meta name="google-site-verification" content="l4yf_aoFnToBUVvV7JFnDrOB0YPcOyGBBV_m14AlrgM" />
+
+    <title>
+        mikrotikbot - Remot VPN mikrotik server mikhmon online dan mikbotam
+    </title>
+    <meta
+        content="Tunnel Remot mikrotik jarak jauh,Hosting mikrotik online untuk management hotspot menggunakan mikhmon - mikbotam"
+        name="description" />
+    <meta content="vpn remote,mikhmon online, mikbotam online, vpn mikrotik" name="keywords" />
+
+    <!-- Favicons -->
+    <link href={{ asset('assets-home/img/favicon.png') }} rel="icon" />
+    <link href={{ asset('assets-home/img/apple-touch-icon.png') }} rel="apple-touch-icon" />
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet" />
+
+    <!-- Vendor CSS Files -->
+    <link href={{ asset('assets-home/vendor/aos/aos.css') }} rel="stylesheet" />
+    <link href={{ asset('assets-home/vendor/bootstrap/css/bootstrap.min.css') }} rel="stylesheet" />
+    <link href={{ asset('assets-home/vendor/bootstrap-icons/bootstrap-icons.css') }} rel="stylesheet" />
+    <link href={{ asset('assets-home/vendor/boxicons/css/boxicons.min.css') }} rel="stylesheet" />
+    <link href={{ asset('assets-home/vendor/glightbox/css/glightbox.min.css') }} rel="stylesheet" />
+    <link href={{ asset('assets-home/vendor/swiper/swiper-bundle.min.css') }} rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href={{ asset('assets-home/css/style.css') }} rel="stylesheet" />
+
+
 </head>
+
 <body>
-<header class="fixed w-full">
-    <nav class="bg-white border-gray-200 py-2.5 dark:bg-gray-900">
-        <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
-            <a href="{{route('home')}}" class="flex items-center">
-                <img src="{{asset('landwind/images/logo.svg')}}" class="h-6 mr-3 sm:h-9" alt="Tunnel Logo" />
-                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-gray-800">TunnelMikrotikBot</span>
-            </a>
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+        <div class="logo">
+            <h1>
+                <a href={{ route('home') }}><img src={{ asset('android-chrome-96x96.png') }} alt=""
+                                                 class="img-fluid">TunnelMikrotikBot</a>
+            </h1>
         </div>
-    </nav>
+
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li>
+                    <a class="nav-link scrollto active" href="#hero">Home</a>
+                </li>
+                <li>
+                    <a class="nav-link scrollto" href="#pricing">Harga</a>
+                </li>
+                <li>
+                    <a class="getstarted" href={{ url('register') }}>Registrasi</a>
+                </li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
+    </div>
 </header>
+<!-- End Header -->
 
-<!-- Start block -->
-<section class="bg-white dark:bg-gray-900">
-    <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
-        <div class="mr-auto place-self-center lg:col-span-7">
-            <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-gray-800">Dapatkan Tunnel <br>Remote MikroTik API atau Winbox.</h1>
-            <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Mengakses jaringan Anda kapan saja dan di mana saja dengan mudah menggunakan Tunnel Remote MikroTik API atau Winbox. <br> Tunnel Remote MikroTik API atau Winbox membantu Anda menghemat waktu dan tenaga dalam mengatur jaringan Anda.
-                <br> Dapatkan sekarang juga!</p>
-            <div class="space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
-                <a href="{{route('login')}}" class="inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
-                        <path d="M20 12h-13l3 -3m0 6l-3 -3"></path>
-                    </svg>
-                    Login
-                </a>
-                <a href="{{route('register')}}" class="inline-flex items-center justify-center w-full px-5 py-3 mb-2 mr-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:w-auto focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-registered" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
-                        <path d="M10 15v-6h2a2 2 0 1 1 0 4h-2"></path>
-                        <path d="M14 15l-2 -2"></path>
-                    </svg>
-                    Register
-                </a>
-            </div>
-        </div>
-        <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-            <img src="{{asset('landwind/images/hero.png')}}" alt="hero image">
-        </div>
-    </div>
-</section>
-<!-- End block -->
-
-<!-- Start block -->
-<section class="bg-white dark:bg-gray-900">
-    <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-24 lg:px-6">
-        <div class="max-w-screen-md mx-auto mb-8 text-center lg:mb-12">
-            <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-800">Solusi hemat dan praktis untuk remote Mikrotik!</h2>
-            <p class="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">
-                Tidak perlu lagi membeli perangkat yang mahal, cukup dengan membayar sewa bulanan atau dengan harga terjangkau Rp.5.000, Anda dapat menggunakan fitur-fitur Mikrotik sesuai dengan kebutuhan Anda. Dapatkan kemudahan dan kenyamanan dalam mengakses jaringan Anda dari mana saja dan kapan saja dengan solusi remote Mikrotik kami.
-            </p>
-        </div>
-        <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
-            <!-- Pricing Card -->
-            <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-gray-800">
-                <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
-                <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400">Nikmati individual configuration tanpa setup atau biaya tersembunyi.</p>
-                <div class="flex items-baseline justify-center my-8">
-                    <span class="mr-2 text-5xl font-extrabold">Rp.5.000</span>
-                    <span class="text-gray-500 dark:text-gray-400">/Bulan</span>
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1"
+                 data-aos="fade-up">
+                <div>
+                    <h1>Buat Tunnel Remot Mikrotik Sendiri</h1>
+                    <h2>
+                        Tunnel remote mikrotik berkualitas untuk akses mikrotik dari luar jaringan lokal, <br>atau
+                        managed hotspot dengan
+                        <span class="btn btn-sm btn-primary">mikhmon</span> online atau <span
+                            class="btn btn-sm btn-info">mikbotam </span> online, anda bisa
+                        menggunakan layanan Tunnel Remot API, WINBOX ataupun WEBFIG dari kami.
+                    </h2>
+                    <a href={{ route('register') }} class="download-btn"><i class='bx bxs-user-plus'></i>Registrasi
+                        Sekarang</a>
+                    <a href={{ route('login') }} class="download-btn"><i class='bx bxs-id-card'></i> Login</a>
                 </div>
-                <!-- List -->
-                <ul role="list" class="mb-8 space-y-4 text-left">
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Dapat di configurasi secara mandiri.</span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Tanpa biaya setup tambahan.</span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Port: <span class="font-semibold">3 Port Remot API, WINBOX, WEB</span></span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Script Configurasi: <span class="font-semibold">Script pemasangan pemasangan tunnel.</span></span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Auto Renew: <span class="font-semibold">Dapat di perpanjang otomatis</span></span>
-                    </li>
-                </ul>
-                <a href="/register" class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-gray-800  dark:focus:ring-purple-900">Get started</a>
             </div>
-            <!-- Pricing Card -->
-            <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-gray-800">
-                <h3 class="mb-4 text-2xl font-semibold">Company</h3>
-                <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400">Include Paket Mikhmon Online</p>
-                <div class="flex items-baseline justify-center my-8">
-                    <span class="mr-2 text-5xl font-extrabold">Rp.25.000</span>
-                    <span class="text-gray-500 dark:text-gray-400">/Bulan</span>
-                </div>
-                <!-- List -->
-                <ul role="list" class="mb-8 space-y-4 text-left">
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Dapat di configurasi secara mandiri.</span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Tanpa biaya setup tambahan.</span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Port: <span class="font-semibold">3 Port Remot API, WINBOX, WEB</span></span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Script Configurasi: <span class="font-semibold">Script pemasangan pemasangan tunnel.</span></span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Auto Renew: <span class="font-semibold">Dapat di perpanjang otomatis</span></span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Mikhmon Online: <span class="font-semibold">Management Hotspot Dapat di Akses di Manapun.</span></span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Subdomain: <span class="font-semibold">Sub domain & hosting.</span></span>
-                    </li>
-                </ul>
-                <a href="/register" class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-gray-800  dark:focus:ring-purple-900">Get started</a>
-            </div>
-            <!-- Pricing Card -->
-            <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-gray-800">
-                <h3 class="mb-4 text-2xl font-semibold">Enterprise</h3>
-                <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400">Include Paket Mikhmon Online & Mikbotam</p>
-                <div class="flex items-baseline justify-center my-8">
-                    <span class="mr-2 text-5xl font-extrabold">Rp.35.000</span>
-                    <span class="text-gray-500 dark:text-gray-400">/Bulan</span>
-                </div>
-                <!-- List -->
-                <ul role="list" class="mb-8 space-y-4 text-left">
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Dapat di configurasi secara mandiri.</span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Tanpa biaya setup tambahan.</span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Port: <span class="font-semibold">3 Port Remot API, WINBOX, WEB</span></span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Script Configurasi: <span class="font-semibold">Script pemasangan pemasangan tunnel.</span></span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Auto Renew: <span class="font-semibold">Dapat di perpanjang otomatis</span></span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Mikhmon Online: <span class="font-semibold">Management Hotspot Dapat di Akses di Manapun.</span></span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Mikbotam Online: <span class="font-semibold">Management Hotspot Dengan bot Telegram.</span></span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Subdomain: <span class="font-semibold">Sub domain & hosting.</span></span>
-                    </li>
-                </ul>
-                <a href="/register" class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-gray-800  dark:focus:ring-purple-900">Get started</a>
+            <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img"
+                 data-aos="fade-up">
+                <img src={{ asset('hero.png') }} class="img-fluid" alt="" />
             </div>
         </div>
     </div>
 </section>
-<!-- End block -->
+<!-- End Hero -->
 
-<footer class="bg-white dark:bg-gray-800">
-    <div class="max-w-screen-xl p-4 py-6 mx-auto lg:py-16 md:p-8 lg:p-10">
-        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8">
-        <div class="text-center">
-            <a href="#" class="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900 dark:text-gray-800">
-                <img src="{{asset('landwind/images/logo.svg')}}" class="h-6 mr-3 sm:h-9" alt="Landwind Logo" />
-                TunnelMikrotikBot
-            </a>
-            <span class="block text-sm text-center text-gray-500 dark:text-gray-400">© 2021-2022 TunnelMikrotikBot™. All Rights Reserved.
-                </span>
+<main id="main">
+    <!-- ======= App Features Section ======= -->
+    {{-- <section id="features" class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Features</h2>
+                <p>
+                    Anda belum mempunyai IP Public, silahkan gunakan Tunnel Remot agar bisa dengan mudah monitoring
+                    ROUTERBOARD dari mana pun.
+                </p>
+            </div>
+
+            <div class="row no-gutters">
+                <div class="col-xl-7 d-flex align-items-stretch order-2 order-lg-1">
+                    <div class="content d-flex flex-column justify-content-center">
+                        <div class="row">
+                            <div class="col-md-6 icon-box" data-aos="fade-up">
+                                <i class="bx bx-receipt"></i>
+                                <h4>Corporis voluptates sit</h4>
+                                <p>
+                                    Consequuntur sunt aut quasi enim
+                                    aliquam quae harum pariatur laboris
+                                    nisi ut aliquip
+                                </p>
+                            </div>
+                            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
+                                <i class="bx bx-cube-alt"></i>
+                                <h4>Ullamco laboris nisi</h4>
+                                <p>
+                                    Excepteur sint occaecat cupidatat
+                                    non proident, sunt in culpa qui
+                                    officia deserunt
+                                </p>
+                            </div>
+                            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
+                                <i class="bx bx-images"></i>
+                                <h4>Labore consequatur</h4>
+                                <p>
+                                    Aut suscipit aut cum nemo deleniti
+                                    aut omnis. Doloribus ut maiores
+                                    omnis facere
+                                </p>
+                            </div>
+                            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
+                                <i class="bx bx-shield"></i>
+                                <h4>Beatae veritatis</h4>
+                                <p>
+                                    Expedita veritatis consequuntur
+                                    nihil tempore laudantium vitae denat
+                                    pacta
+                                </p>
+                            </div>
+                            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
+                                <i class="bx bx-atom"></i>
+                                <h4>Molestiae dolor</h4>
+                                <p>
+                                    Et fuga et deserunt et enim. Dolorem
+                                    architecto ratione tensa raptor
+                                    marte
+                                </p>
+                            </div>
+                            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="500">
+                                <i class="bx bx-id-card"></i>
+                                <h4>Explicabo consectetur</h4>
+                                <p>
+                                    Est autem dicta beatae suscipit.
+                                    Sint veritatis et sit quasi ab aut
+                                    inventore
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="image col-xl-5 d-flex align-items-stretch justify-content-center order-1 order-lg-2"
+                    data-aos="fade-left" data-aos-delay="100">
+                    <img src="assets/img/features.svg" class="img-fluid" alt="" />
+                </div>
+            </div>
+        </div>
+    </section> --}}
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Harga</h2>
+                <p>
+                    Jika anda ingin menggunakan tunnel mikrotikbot silahkan pilih harga sewa yang ingin anda
+                    kehendaki, untuk nominal <span class="badge bg-success"> Rp. 5.000</span> anda sudah bisa akses
+                    mikrotik dari luar jaringan tanpa harus
+                    berada pada jaringan lokal network anda.
+                </p>
+            </div>
+
+            <div class="row no-gutters">
+                <div class="col-lg-4 box" data-aos="fade-right">
+                    <h3>Hemat Lengkap</h3>
+                    <h4>Rp. 5.000<span>Per Bulan</span></h4>
+                    <ul>
+                        <li>
+                            <i class="bx bx-check"></i>Masa Aktif 1 Bulan
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i> Mendapatkan 3 Port Akses
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i> Port Api
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            <span>Port Winbox</span>
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            <span>Webfig/Userman</span>
+                        </li>
+                    </ul>
+                    <a href={{ route('register') }} class="get-started-btn">Order Sekarang</a>
+                </div>
+
+                <div class="col-lg-4 box featured" data-aos="fade-up">
+                    <h3>Dobel Lengkap</h3>
+                    <h4>Rp. 15.000<span>Per Bulan</span></h4>
+                    <ul>
+                        <li>
+                            <i class="bx bx-check"></i> Aktif 1 Bulan + Hosting Mikrotik
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i> Port Api, Winbox, Web
+                        </li>
+                    </ul>
+                    <a href={{ route('register') }} class="get-started-btn">Order Sekarang</a>
+                </div>
+
+                <div class="col-lg-4 box" data-aos="fade-left">
+                    <h3>3XXXL </h3>
+                    <h4>Rp. 25.000<span>Per Bulan</span></h4>
+                    <ul>
+                        <li>
+                            <i class="bx bx-check"></i> Aktif 1 Bulan + Hosting Mikrotik
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i> Port Api, Winbox, Web
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i> Mikhmon Online
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i> Mikbotam
+                        </li>
+                    </ul>
+                    <a href={{ route('register') }} class="get-started-btn">Order Sekarang</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 footer-contact">
+                    <h3>{{ config('app.name', 'MikrotikBot') }}</h3>
+                    <p>
+                        Indonesia <br /><br />
+                        <strong>Phone:</strong> +62 8515 7000 387<br />
+                        <strong>Email:</strong> csmikrotikbot@gmail.com<br />
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-4">
+        <div class="copyright">
+            &copy; Copyright <strong><span>{{ config('app.name', 'MikrotikBot') }}</span></strong>. All Rights
+            Reserved
         </div>
     </div>
 </footer>
-<script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
+<!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script src={{ asset('assets-home/vendor/aos/aos.js') }}></script>
+<script src={{ asset('assets-home/vendor/bootstrap/js/bootstrap.bundle.min.js') }}></script>
+<script src={{ asset('assets-home/vendor/glightbox/js/glightbox.min.js') }}></script>
+<script src={{ asset('assets-home/vendor/swiper/swiper-bundle.min.js') }}></script>
+<script src={{ asset('assets-home/vendor/php-email-form/validate.js') }}></script>
+
+<!-- Template Main JS File -->
+<script src={{ asset('assets-home/js/main.js') }}></script>
 </body>
+
 </html>
