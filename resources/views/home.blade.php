@@ -34,7 +34,6 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <link href="{{asset('landwind/output.css')}}" rel="stylesheet">
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <body>
 <header class="fixed w-full">
@@ -139,7 +138,7 @@
                 <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400">Include Paket Mikhmon Online</p>
                 <div class="flex items-baseline justify-center my-8">
                     <span class="mr-2 text-5xl font-extrabold">Rp.25.000</span>
-                    <span class="text-gray-500 dark:text-gray-400" dark:text-gray-400>/Bulan</span>
+                    <span class="text-gray-500 dark:text-gray-400">/Bulan</span>
                 </div>
                 <!-- List -->
                 <ul role="list" class="mb-8 space-y-4 text-left">
@@ -187,7 +186,7 @@
                 <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400">Include Paket Mikhmon Online & Mikbotam</p>
                 <div class="flex items-baseline justify-center my-8">
                     <span class="mr-2 text-5xl font-extrabold">Rp.35.000</span>
-                    <span class="text-gray-500 dark:text-gray-400" dark:text-gray-400>/Bulan</span>
+                    <span class="text-gray-500 dark:text-gray-400">/Bulan</span>
                 </div>
                 <!-- List -->
                 <ul role="list" class="mb-8 space-y-4 text-left">
