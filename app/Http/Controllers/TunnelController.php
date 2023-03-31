@@ -89,8 +89,11 @@ public function store(Request $request)
     $portapi = generatePort(4, $previousPorts);
     $portwinbox = generatePort(4, $previousPorts);
     $portweb = generatePort(4, $previousPorts);
-
+    $existing_ips = Tunnel::pluck('ip_tunnel');
     $iptunnel = '10.10.11.' . rand(40, 253);
+    while ($existing_ips->contains($iptunnel)) {
+        $iptunnel = '10.10.11.' . rand(40, 253);
+    }
     $localaddress = '10.10.11.1';
 
     $autoRenew = $request->input('auto_renew');

@@ -67,7 +67,8 @@ class TransactionController extends Controller
      */
     public function show($reference)
     {
-     $detail = $this->tripayRepository->detailTransaction($reference);
+       $detail = $this->tripayRepository->detailTransaction($reference);
+
        return view('balance.show',[
            'detail' => $detail
        ]);

@@ -16,7 +16,7 @@
                         <div class="grid gap-x-6 md:grid-cols-2">
                             <div class="my-3">
                                 <x-splade-select name="payment_method" label="Metode Pembayaran">
-{{--                                    <option disabled selected>Pilih Metode Pembayaran</option>--}}
+                                    <option disabled selected>Pilih Metode Pembayaran</option>
                                     @foreach($paymentChannels as $payment)
                                         <option value="{{$payment->code}}">{{$payment->name}} | {{$payment->code}}</option>
                                     @endforeach

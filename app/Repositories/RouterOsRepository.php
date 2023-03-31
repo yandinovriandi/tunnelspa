@@ -349,7 +349,7 @@ class RouterOsRepository
      * @throws BadCredentialsException
      * @throws ConfigException
      */
-    public function disableWithSch($server): void
+    public function disableWithSch($server)
     {
         $client = $this->getMikrotik($server);
         $tunnels = Tunnel::get();

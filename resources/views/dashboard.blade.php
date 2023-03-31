@@ -63,52 +63,6 @@
                             <span class="text-xs tracking-tight text-muted sm:text-sm">Invoce Pending
                             </span>
                         </Link>
-{{--                        <a class="bg-white border dark:text-slate-100 text-slate-800 dark:border-slate-700 dark:bg-slate-800 group relative block !border-none rounded-xl p-3 shadow lg:p-6" href="https://parsinta.com/articles/list">--}}
-{{--                            <div class="mb-2 flex items-center justify-between">--}}
-{{--                                <h4 class="font-mono text-base tracking-tighter dark:text-white sm:text-3xl">--}}
-{{--                                    2--}}
-{{--                                </h4>--}}
-{{--                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-900 fade group-hover:bg-sky-100 group-hover:text-sky-900 dark:bg-black/20 dark:text-slate-200 dark:group-hover:bg-sky-900/50 dark:group-hover:text-sky-500 lg:h-10 lg:w-10">--}}
-{{--                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 lg:h-5 lg:w-5">--}}
-{{--                                        <path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18"></path>--}}
-{{--                                        <path d="M13 8l2 0"></path>--}}
-{{--                                        <path d="M13 12l2 0"></path>--}}
-{{--                                    </svg>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <span class="text-xs tracking-tight text-muted sm:text-sm">Artikel saya--}}
-{{--                            </span>--}}
-{{--                        </a>--}}
-{{--                        <a class="bg-white border dark:text-slate-100 text-slate-800 dark:border-slate-700 dark:bg-slate-800 group relative block !border-none rounded-xl p-3 shadow lg:p-6" href="https://parsinta.com/articles/favorite">--}}
-{{--                            <div class="mb-2 flex items-center justify-between">--}}
-{{--                                <h4 class="font-mono text-base tracking-tighter dark:text-white sm:text-3xl">--}}
-{{--                                    0--}}
-{{--                                </h4>--}}
-{{--                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-900 fade group-hover:bg-sky-100 group-hover:text-sky-900 dark:bg-black/20 dark:text-slate-200 dark:group-hover:bg-sky-900/50 dark:group-hover:text-sky-500 lg:h-10 lg:w-10">--}}
-{{--                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 lg:h-5 lg:w-5">--}}
-{{--                                        <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>--}}
-{{--                                    </svg>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <span class="text-xs tracking-tight text-muted sm:text-sm">Artikel favorit--}}
-{{--                            </span>--}}
-{{--                        </a>--}}
-{{--                        <a class="bg-white border dark:text-slate-100 text-slate-800 dark:border-slate-700 dark:bg-slate-800 group relative block !border-none rounded-xl p-3 shadow lg:p-6" href="">--}}
-{{--                            <div class="mb-2 flex items-center justify-between">--}}
-{{--                                <h4 class="font-mono text-base tracking-tighter dark:text-white sm:text-3xl">--}}
-{{--                                    14--}}
-{{--                                </h4>--}}
-{{--                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-900 fade group-hover:bg-sky-100 group-hover:text-sky-900 dark:bg-black/20 dark:text-slate-200 dark:group-hover:bg-sky-900/50 dark:group-hover:text-sky-500 lg:h-10 lg:w-10">--}}
-{{--                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 lg:h-5 lg:w-5">--}}
-{{--                                        <path d="M8 9h8"></path>--}}
-{{--                                        <path d="M8 13h6"></path>--}}
-{{--                                        <path d="M9 18h-3a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-3l-3 3l-3 -3z"></path>--}}
-{{--                                    </svg>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <span class="text-xs tracking-tight text-muted sm:text-sm">Komentar saya--}}
-{{--                            </span>--}}
-{{--                        </a>--}}
                     </div>
 
                         <x-splade-table  :for="$transactions" class="mt-6">
@@ -148,10 +102,10 @@
                                 </div>
                                 @endif
                             @endcell
-                        </x-splade-table>
+                     </x-splade-table>
                 </div>
             </div>
         </div>
     </div>
-    </x-splade-lazy>
+  </x-splade-lazy>
 </x-app-layout>

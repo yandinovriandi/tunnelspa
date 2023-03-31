@@ -72,13 +72,5 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 
-    protected function schedule(Schedule $schedule)
-    {
-        $schedule->call(function (RouterOsRepository $routerOsRepository) {
-            \Log::info('Running disableWithSch() function.');
-            $tunnelController = new TunnelController($routerOsRepository);
-            $tunnelController->cekExpiredTunnels($routerOsRepository);
-        })->everyMinute();
-    }
 }
 

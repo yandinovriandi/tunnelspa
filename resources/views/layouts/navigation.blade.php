@@ -75,7 +75,7 @@
                             </x-dropdown-link>
                             @can('create payment')
                             @php
-                                $payment = \App\Models\Payment::get();
+                                $payment = new \App\Models\Payment();
                             @endphp
                             @if($payment->count() == 0)
                                 <x-dropdown-link :href="route('payment.create')">
@@ -87,9 +87,9 @@
                                         {{ __('Payment') }}
                                     </x-dropdown-link>
                                 @else
-                                    <x-dropdown-link :href="route('payment.edit',$payment->where('is_default', true)->first())">
-                                        {{ __('Payment') }}
-                                    </x-dropdown-link>
+{{--                                    <x-dropdown-link :href="route('payment.edit',$payment)">--}}
+{{--                                        {{ __('Payment') }}--}}
+{{--                                    </x-dropdown-link>--}}
                                 @endif
                             @endif
                             @endcan
