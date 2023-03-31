@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Jobs\cekTunnelExpiredJob;
+use App\Repositories\RouterOsRepository;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,7 +19,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
          $schedule->command('app:expire-tunnels')->everyMinute();
-
+        $routerOsRepository = RouterOsRepository::class;
+        $schedule->job(new cekTunnelExpiredJob($routerOsRepository))->daily();
     }
 
     /**

@@ -90,8 +90,8 @@ public function store(Request $request)
     $portwinbox = generatePort(4, $previousPorts);
     $portweb = generatePort(4, $previousPorts);
 
-    $iptunnel = '10.10.0.' . rand(40, 253);
-    $localaddress = '10.10.0.1';
+    $iptunnel = '10.10.11.' . rand(40, 253);
+    $localaddress = '10.10.11.1';
 
     $autoRenew = $request->input('auto_renew');
     $debit = auth()->user()->balances()->where('balance', '>=', 0)->get('balance')->sum('balance');
