@@ -263,8 +263,7 @@ public function store(Request $request)
         $server = Server::where('id', $sid)->first();
         $request->validate([
             'password' => ['required'],
-        ]);
-        $autoRenew = $request->auto_renew;
+        ]); 
         $uid = $request->user_id;
         $password = $request->password;
         $to_ports_web = $request->to_ports_web;
@@ -272,7 +271,6 @@ public function store(Request $request)
         $to_ports_winbox = $request->to_ports_winbox;
 //        $tunnel = Tunnel::where('username', $tunnel->username)->first();
         $tunnel->update([
-            'auto_renew' => $autoRenew,
             'server_id' => $sid,
             'user_id' => $uid,
             'password' => $password,
