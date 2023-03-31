@@ -468,7 +468,7 @@ class RouterOsRepository
      * @throws QueryException
      * @throws ConfigException
      */
-    public function deleteActiveSecret($server,$username): void
+    public function deleteActiveSecret($server,$username)
     {
         $client=$this->getMikrotik($server);
          $activeTunnels = $client->query('/ppp/active/print')->read();
