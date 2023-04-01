@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Server;
 use App\Models\Tunnel;
 use App\Models\User;
+use App\Models\UserBalace;
 use App\Repositories\RouterOsRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -385,4 +386,56 @@ public function store(Request $request)
             // gunakan $routerOsRepository untuk melakukan koneksi dan pengaturan pada Mikrotik
         }
     }
+
+    /**
+     * @throws ClientException
+     * @throws ConnectException
+     * @throws BadCredentialsException
+     * @throws QueryException
+     * @throws ConfigException
+     */
+    public function renew(Tunnel $tunnel)
+    {
+        try {
+            $userBalance = UserBalace::where('user_id', $tunnel->user_id)->firstOrFail();
+            $server = Server::where('id', $tunnel->server_id)->first();
+            $username = $tunnel->username ?? '';
+            $statusV = 'aktif';
+            $tunnel->refresh();
+
+
+            if (!empty($username)) {
+                $this->routerOsRepository->enablePppSecret($server,$username);
+            }
+            $tunnel->update([
+                'status' =>$statusV,
+                'expired' => now()->addMonth(),
+            ]);
+
+            $userBalance->create([
+                'user_id' => $tunnel->user_id,
+                'balance' => -5000
+            ]);
+            Toast::title('Success.')
+                ->message('Tunnel berhasil di perpanjang.')
+                ->backdrop()
+                ->autoDismiss(2);
+            return back();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Handle the case where the UserBalance or Server model is not found
+            \Log::error("Error renewing tunnel: Model not found: {$e->getMessage()}");
+            abort(404);
+        } catch (\Exception $e) {
+            // Handle any other errors that may occur
+            \Log::error("Error renewing tunnel: {$e->getMessage()}");
+            Toast::title('Error.')
+                ->message('Terjadi kesalahan saat memperpanjang tunnel.')
+                ->warning()
+                ->backdrop()
+                ->autoDismiss(2);
+            return back();
+        }
+    }
+
+
 }

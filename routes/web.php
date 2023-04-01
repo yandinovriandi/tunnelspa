@@ -33,6 +33,7 @@ Route::middleware('splade')->group(function () {
         });
 
         Route::resource('tunnels', \App\Http\Controllers\TunnelController::class);
+        Route::put('tunnels/{tunnel}/renew',[\App\Http\Controllers\TunnelController::class,'renew'])->name('tunnels.renew');
 //        Route::resource('balance', \App\Http\Controllers\UserBalaceController::class);
         Route::resource('transaction', \App\Http\Controllers\TransactionController::class);
         Route::get('transaction/{reference}',[\App\Http\Controllers\TransactionController::class, 'show'])->name('transaction.show');

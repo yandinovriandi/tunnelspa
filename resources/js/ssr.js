@@ -5,7 +5,6 @@ import { renderSpladeApp, SpladePlugin, startServer } from "@protonemedia/larave
 
 startServer(createServer, renderToString, (props) => {
     return createSSRApp({
-        render: renderSpladeApp(props)
-    })
-        .use(SpladePlugin);
+        render: renderSpladeApp(props),
+    }).use(SpladePlugin);
 });

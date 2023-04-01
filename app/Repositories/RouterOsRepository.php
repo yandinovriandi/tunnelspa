@@ -479,4 +479,25 @@ class RouterOsRepository
                 $client->query($remove)->read();
             }
         }
+
+    /**
+     * @throws ClientException
+     * @throws ConnectException
+     * @throws QueryException
+     * @throws BadCredentialsException
+     * @throws ConfigException
+     */
+    public function enablePppSecret($server, $username)
+    {
+        $client=$this->getMikrotik($server);
+        $query = new Query('/ppp/secret/print');
+        $query->where('name', $username);
+        $disabledSecrets = $client->query($query)->read();
+        foreach ($disabledSecrets as $disabledSecret) {
+            $enable = (new Query('/ppp/secret/enable'))
+                ->where('name' , $username)
+                ->equal('.id', $disabledSecret['.id']);
+            $client->query($enable)->read();
+        }
+    }
 }

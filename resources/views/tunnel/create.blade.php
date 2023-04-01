@@ -14,7 +14,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-splade-form :action="route('tunnels.store')">
                         <x-splade-select name="server_id" :options="$servers" label="Server Tunnels" choices/>
-                        <div class="grid gap-x-6 md:grid-cols-2">
+                            <div class="grid gap-x-6 md:grid-cols-2">
                             <div class="my-3">
                                 <x-splade-input name="username" label="Username" placeholder="user tunnel remote"/>
                             </div>
