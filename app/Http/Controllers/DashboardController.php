@@ -29,7 +29,7 @@ class DashboardController extends Controller
             'transactions' => SpladeTable::for($transactions)
                 ->column('reference',
                     sortable: true
-                )->withGlobalSearch(columns: ['reference', 'status'])
+                )->withGlobalSearch(columns: ['reference'])
                 ->column('amount')
                 ->column('type')
                 ->column('created_at')

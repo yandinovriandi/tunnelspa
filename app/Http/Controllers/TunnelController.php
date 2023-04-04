@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Server;
+use App\Models\Transaction;
 use App\Models\Tunnel;
 use App\Models\User;
 use App\Models\UserBalace;
 use App\Repositories\RouterOsRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -82,8 +84,14 @@ class TunnelController extends Controller
     }
 
 
-
-public function store(Request $request)
+    /**
+     * @throws ClientException
+     * @throws ConnectException
+     * @throws BadCredentialsException
+     * @throws QueryException
+     * @throws ConfigException
+     */
+    public function store(Request $request)
 {
     $server = Server::where('id', $request->server_id)->first();
     $previousPorts = Tunnel::pluck('api')->merge(Tunnel::pluck('web'))->merge(Tunnel::pluck('winbox'))->toArray();
@@ -97,7 +105,6 @@ public function store(Request $request)
     }
     $localaddress = '10.10.11.1';
 
-    $autoRenew = $request->input('auto_renew');
     $debit = auth()->user()->balances()->where('balance', '>=', 0)->get('balance')->sum('balance');
     $credit = auth()->user()->balances()->where('balance', '<', 0)->get('balance')->sum('balance');
     $balance = $debit + $credit;
@@ -134,7 +141,6 @@ public function store(Request $request)
             'ip_server' => $server->host,
             'server_id' => $request->server_id,
             'server' => $server->name,
-            'auto_renew' => $autoRenew,
             'local_addrss' => $localaddress,
             'ip_tunnel' => $remoteadress = $iptunnel,
             'domain' => $server->domain,
@@ -202,7 +208,7 @@ public function store(Request $request)
         return view('tunnel.sync',[
             'tunnel' => $tunnel,
             'servers' => $servers,
-            'users' => $users
+            'users' => $users,
         ]);
     }
 
@@ -258,6 +264,13 @@ public function store(Request $request)
         return to_route('tunnels.show', $tunnel);
     }
 
+    /**
+     * @throws ConnectException
+     * @throws QueryException
+     * @throws ClientException
+     * @throws BadCredentialsException
+     * @throws ConfigException
+     */
     public function reasync(Request $request, Tunnel $tunnel)
     {
         $sid = $request->server_id;
@@ -266,24 +279,23 @@ public function store(Request $request)
             'password' => ['required'],
         ]);
         $autoRenew = $request->auto_renew;
+        $status = $request->status;
         $uid = $request->user_id;
         $password = $request->password;
         $to_ports_web = $request->to_ports_web;
         $to_ports_api = $request->to_ports_api;
         $to_ports_winbox = $request->to_ports_winbox;
-//        $tunnel = Tunnel::where('username', $tunnel->username)->first();
         $tunnel->update([
+            'status' => $status,
             'server_id' => $sid,
             'user_id' => $uid,
             'password' => $password,
             'to_ports_web' =>  $to_ports_web,
             'to_ports_api' =>  $to_ports_api,
             'to_ports_winbox' =>  $to_ports_winbox,
-
             'username' => $tunnel->username,
             'ip_server' => $server->host,
             'server' => $server->name,
-            // Menambahkan logika kondisional di sini
             'auto_renew' => $autoRenew,
             'local_addrss' => $tunnel->local_addrss,
             'ip_tunnel' => $tunnel->ip_tunnel,
@@ -400,18 +412,22 @@ public function store(Request $request)
             $userBalance = UserBalace::where('user_id', $tunnel->user_id)->firstOrFail();
             $server = Server::where('id', $tunnel->server_id)->first();
             $username = $tunnel->username ?? '';
-            $statusV = 'aktif';
-            $tunnel->refresh();
-
 
             if (!empty($username)) {
                 $this->routerOsRepository->enablePppSecret($server,$username);
             }
             $tunnel->update([
-                'status' =>$statusV,
+                'status' => 'aktif',
                 'expired' => now()->addMonth(),
             ]);
-
+            Transaction::create([
+                'user_id' => $tunnel->user_id,
+                'amount' => 5000,
+                'reference' => 'RTUN' . time(),
+                'merchant_ref' => 'RTINV-' . time(),
+                'type' => 'Perpanjang Layanan Tunnel',
+                'status' => 'PAID',
+            ]);
             $userBalance->create([
                 'user_id' => $tunnel->user_id,
                 'balance' => -5000
@@ -421,7 +437,7 @@ public function store(Request $request)
                 ->backdrop()
                 ->autoDismiss(2);
             return back();
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             // Handle the case where the UserBalance or Server model is not found
             \Log::error("Error renewing tunnel: Model not found: {$e->getMessage()}");
             abort(404);

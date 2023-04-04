@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('reference');
             $table->string('merchant_ref');
             $table->double('amount');
-            $table->enum('status',['PAID','UNPAID'])->default('UNPAID');
+            $table->string('status')->default('UNPAID');
             $table->timestamps();
         });
     }

@@ -76,20 +76,19 @@
                             <span class="bg-yellow-100 capitalize hover:cursor-pointer hover:text-yellow-700 font-semibold text-yellow-500 rounded-md px-4 py-0.5">{{$transaction->created_at}}</span>
                             @endcell
                             @cell('status',$transaction)
-                            @if($transaction->status == 'UNPAID')
-                                <span class="bg-red-100 capitalize hover:cursor-pointer hover:text-red-700 font-semibold text-red-500 rounded-md px-4 py-0.5">{{$transaction->status}}</span>
-                            @elseif($transaction->status == 'PAID')
-                                <span class="bg-green-100 capitalize hover:cursor-pointer hover:text-green-700 font-semibold text-green-500 rounded-md px-4 py-0.5">{{$transaction->status}}</span>
-                            @else
-                                <span class="bg-yellow-100 capitalize hover:cursor-pointer hover:text-yellow-700 font-semibold text-yellow-500 rounded-md px-4 py-0.5">{{$transaction->status}}</span>
-                            @endif
+                                <span class="
+                                  {{ $transaction->status == \App\Enums\TransactionStatus::PAID ? 'text-green-500 bg-green-100 hover:text-green-700' : 'text-yellow-500 bg-yellow-100 hover:text-yellow-700' }}
+                                  hover:cursor-pointer font-semibold rounded-md px-4 py-0.5"
+                                                            >
+                                  {{ $transaction->status }}
+                                </span>
                             @endcell
                             @cell('actions',$transaction)
-                                @if($transaction->type == 'Order Layanan Tunnel')
-
-                                @else
+                            @if ($transaction->type == 'Order Layanan Tunnel' || $transaction->type == 'Perpanjang Layanan Tunnel')
+                                {{-- Do nothing --}}
+                            @else
                                 <div class="flex items-center justify-center gap-x-1">
-                                    <Link href="{{route('transaction.show',$transaction->reference)}}" class="text-blue-500 hover:text-blue-700">
+                                    <Link href="{{ route('transaction.show', $transaction->reference) }}" class="text-blue-500 hover:text-blue-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-invoice" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
@@ -100,7 +99,8 @@
                                     </svg>
                                     </Link>
                                 </div>
-                                @endif
+                            @endif
+
                             @endcell
                      </x-splade-table>
                 </div>

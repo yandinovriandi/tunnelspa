@@ -16,14 +16,14 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('server_id');
             $table->string('username')->unique();
-            $table->string('auto_renew');
+            $table->string('auto_renew')->default('aktif');
             $table->string('password');
             $table->string('ip_server');
             $table->string('server');
             $table->string('ip_tunnel');
             $table->string('local_addrss');
             $table->string('domain');
-            $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
+            $table->string('status')->default('aktif');
             $table->string('api')->unique();
             $table->string('to_ports_api')->nullable();
             $table->string('winbox')->unique();
