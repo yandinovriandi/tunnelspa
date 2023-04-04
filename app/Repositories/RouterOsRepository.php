@@ -442,10 +442,7 @@ class RouterOsRepository
     {
         $client = $this->getMikrotik($server);
         $tunnels = Tunnel::get();
-        foreach ($tunnels as $tunnel) {
-                $tunnel->update([
-                    'status' => 'nonaktif',
-                ]);
+        foreach ($tunnels as $tunnel) { 
                 $toDisable = 'yes';
                 $disableTunnel = new Query('/ppp/secret/print');
                 $disableTunnel->where('name', $username);
