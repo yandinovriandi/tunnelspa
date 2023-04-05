@@ -24,11 +24,11 @@ class ServerStoreRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'domain'   => 'required',
+            'domain' => 'required',
             'username' => 'required',
             'password' => 'required',
             'host' => 'required',
-            'port' => 'required'
+            'port' => 'required',
         ];
     }
 }

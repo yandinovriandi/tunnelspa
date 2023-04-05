@@ -11,10 +11,12 @@ use ProtoneMedia\Splade\Facades\Toast;
 class TransactionController extends Controller
 {
     private TripayRepository $tripayRepository;
+
     public function __construct(TripayRepository $tripayRepository)
     {
         $this->tripayRepository = $tripayRepository;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -29,8 +31,9 @@ class TransactionController extends Controller
     public function create()
     {
         $paymentChannels = $this->tripayRepository->getPaymentChannels();
-        return view('balance.create',[
-            'paymentChannels' => $paymentChannels
+
+        return view('balance.create', [
+            'paymentChannels' => $paymentChannels,
         ]);
     }
 
@@ -54,11 +57,12 @@ class TransactionController extends Controller
             'reference' => $reqtransaction->reference,
             'type' => 'Topup Balance',
             'merchant_ref' => $reqtransaction->merchant_ref,
-            'amount' => $userBalance
+            'amount' => $userBalance,
         ]);
         Toast::title('Invoice Topup Balance berhasil di buat.');
-        return to_route('transaction.show',[
-            'reference' => $reqtransaction->reference
+
+        return to_route('transaction.show', [
+            'reference' => $reqtransaction->reference,
         ]);
     }
 
@@ -67,11 +71,11 @@ class TransactionController extends Controller
      */
     public function show($reference)
     {
-       $detail = $this->tripayRepository->detailTransaction($reference);
+        $detail = $this->tripayRepository->detailTransaction($reference);
 
-       return view('balance.show',[
-           'detail' => $detail
-       ]);
+        return view('balance.show', [
+            'detail' => $detail,
+        ]);
     }
 
     /**

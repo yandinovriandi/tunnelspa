@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
-use App\Models\UserBalace;
 use App\Repositories\TripayRepository;
-use Illuminate\Http\Request;
 use ProtoneMedia\Splade\SpladeTable;
 
 class DashboardController extends Controller
@@ -21,11 +19,11 @@ class DashboardController extends Controller
         $debit = auth()->user()->balances()->where('balance', '>=', 0)->get('balance')->sum('balance');
         $credit = auth()->user()->balances()->where('balance', '<', 0)->get('balance')->sum('balance');
         $balance = $debit + $credit;
-        $tunnel = auth()->user()->tunnels()->with('user')->where('user_id',auth()->user()->id)->get()->count();
+        $tunnel = auth()->user()->tunnels()->with('user')->where('user_id', auth()->user()->id)->get()->count();
         $invoice = auth()->user()->transactions()->with('user')->where('status', 'UNPAID')->get()->count();
-        $transactions = Transaction::with('user')->where('user_id',auth()->user()->id)->paginate(5);
+        $transactions = Transaction::with('user')->where('user_id', auth()->user()->id)->paginate(5);
 
-        return view('dashboard',[
+        return view('dashboard', [
             'transactions' => SpladeTable::for($transactions)
                 ->column('reference',
                     sortable: true
@@ -35,12 +33,12 @@ class DashboardController extends Controller
                 ->column('created_at')
                 ->column('status')
                 ->column('actions')
-//                ->paginate(5)
+            //                ->paginate(5)
             ,
-//            'detail' => $detail,
+            //            'detail' => $detail,
             'balance' => $balance,
             'tunnel' => $tunnel,
-            'invoice' => $invoice
+            'invoice' => $invoice,
         ]);
     }
 }

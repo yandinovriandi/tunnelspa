@@ -30,14 +30,14 @@ return [
      |
      */
 
-    'attempts'        => 10,   // Count of attempts to establish TCP session
-    'delay'           => 1,    // Delay between attempts in seconds
-    'timeout'         => 10,   // Max timeout for instantiating connection with RouterOS
-    'socket_timeout'  => 30,   // Max timeout for read from RouterOS
+    'attempts' => 10,   // Count of attempts to establish TCP session
+    'delay' => 1,    // Delay between attempts in seconds
+    'timeout' => 10,   // Max timeout for instantiating connection with RouterOS
+    'socket_timeout' => 30,   // Max timeout for read from RouterOS
     'socket_blocking' => true, // Set blocking mode on a socket stream
 
     // @see https://www.php.net/manual/en/context.socket.php
-    'socket_options'  => [
+    'socket_options' => [
         // Examples:
         // 'bindto' => '192.168.0.100:0',    // connect to the internet using the '192.168.0.100' IP
         // 'bindto' => '192.168.0.100:7000', // connect to the internet using the '192.168.0.100' IP and port '7000'
@@ -61,13 +61,13 @@ return [
      |
      */
 
-    'ssl'         => false, // Enable ssl support (if port is not set this parameter must change default port to ssl port)
+    'ssl' => false, // Enable ssl support (if port is not set this parameter must change default port to ssl port)
 
     // @see https://www.php.net/manual/en/context.ssl.php
     'ssl_options' => [
-        'ciphers'           => 'ADH:ALL', // ADH:ALL, ADH:ALL@SECLEVEL=0, ADH:ALL@SECLEVEL=1 ... ADH:ALL@SECLEVEL=5
-        'verify_peer'       => false,     // Require verification of SSL certificate used.
-        'verify_peer_name'  => false,     // Require verification of peer name.
+        'ciphers' => 'ADH:ALL', // ADH:ALL, ADH:ALL@SECLEVEL=0, ADH:ALL@SECLEVEL=1 ... ADH:ALL@SECLEVEL=5
+        'verify_peer' => false,     // Require verification of SSL certificate used.
+        'verify_peer_name' => false,     // Require verification of peer name.
         'allow_self_signed' => false,     // Allow self-signed certificates. Requires verify_peer=true.
     ],
 
@@ -81,8 +81,8 @@ return [
      |
      */
 
-    'ssh_port'        => 22, // Number of SSH port
-    'ssh_timeout'     => 30, // Max timeout for read from RouterOS via SSH proto (for "/export" command)
+    'ssh_port' => 22, // Number of SSH port
+    'ssh_timeout' => 30, // Max timeout for read from RouterOS via SSH proto (for "/export" command)
     'ssh_private_key' => '~/.ssh/id_rsa.pub', // Full path to required private key
 
     /*

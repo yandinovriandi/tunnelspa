@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserBalace extends Model
 {
-protected $fillable = ['user_id','balance'];
+    protected $fillable = ['user_id', 'balance'];
+
     use HasFactory;
-        public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-        {
-            return $this->belongsTo(User::class);
-        }
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

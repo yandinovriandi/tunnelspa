@@ -2,10 +2,9 @@
 
 namespace App\Enums;
 
-enum TransactionStatus: string {
+enum TransactionStatus: string
+{
     case UNPAID = 'UNPAID';
     case PAID = 'PAID';
     case EXPIRED = 'EXPIRED';
 }
-
-?>

@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ServerStoreRequest;
 use App\Models\Server;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
@@ -18,28 +16,28 @@ class ServerController extends Controller
      */
     public function index()
     {
-        $globalSearch = AllowedFilter::callback('global', function ($query,$value){
-            $query->where(function ($query) use ($value){
-               Collection::wrap($value)->each(function ($value)use($query){
-                   $query->orWhere('name','LIKE',"%$value%")
-                       ->orWhere('domain','LIKE',"%$value%");
-               });
+        $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
+            $query->where(function ($query) use ($value) {
+                Collection::wrap($value)->each(function ($value) use ($query) {
+                    $query->orWhere('name', 'LIKE', "%$value%")
+                        ->orWhere('domain', 'LIKE', "%$value%");
+                });
             });
         });
-        return view('server.index',[
-         'servers' => SpladeTable::for(Server::class)
-             ->column('name',
-                 sortable: true
-             )->withGlobalSearch(columns: ['name', 'domain'])
-             ->column('domain')
-             ->column('host')
-             ->column('username')
-             ->column('password')
-             ->column('port')
-             ->column('actions')
-             ->paginate(5),
-        ]);
 
+        return view('server.index', [
+            'servers' => SpladeTable::for(Server::class)
+                ->column('name',
+                    sortable: true
+                )->withGlobalSearch(columns: ['name', 'domain'])
+                ->column('domain')
+                ->column('host')
+                ->column('username')
+                ->column('password')
+                ->column('port')
+                ->column('actions')
+                ->paginate(5),
+        ]);
     }
 
     /**
@@ -47,8 +45,9 @@ class ServerController extends Controller
      */
     public function create()
     {
-        $servers = Server::pluck('id','slug','name')->toArray();
-        return view('server.create',['servers' => $servers]);
+        $servers = Server::pluck('id', 'slug', 'name')->toArray();
+
+        return view('server.create', ['servers' => $servers]);
     }
 
     /**
@@ -56,21 +55,21 @@ class ServerController extends Controller
      */
     public function store(ServerStoreRequest $request)
     {
-         Server::create([
-                'name' => $name = $request->name,
-                'slug' => str($name . '-'. Str::random(6))->slug(),
-                'domain'   => $request->domain,
-                'username' => $request->username,
-                'password' => $request->password,
-                'host' => $request->host,
-                'port' => $request->port
-            ]);
-            Toast::title('Berhasil.')
-                ->message('Server baru berhasil di simpan.')
-                ->backdrop()
-                ->autoDismiss(2);
-            return to_route('server.index');
+        Server::create([
+            'name' => $name = $request->name,
+            'slug' => str($name.'-'.Str::random(6))->slug(),
+            'domain' => $request->domain,
+            'username' => $request->username,
+            'password' => $request->password,
+            'host' => $request->host,
+            'port' => $request->port,
+        ]);
+        Toast::title('Berhasil.')
+            ->message('Server baru berhasil di simpan.')
+            ->backdrop()
+            ->autoDismiss(2);
 
+        return to_route('server.index');
     }
 
     /**
@@ -86,8 +85,8 @@ class ServerController extends Controller
      */
     public function edit(Server $server)
     {
-        return view('server.edit',[
-            'server' => $server
+        return view('server.edit', [
+            'server' => $server,
         ]);
     }
 
@@ -99,16 +98,17 @@ class ServerController extends Controller
         $server->update([
             'name' => $request->name,
             'slug' => $server->slug,
-            'domain'   => $request->domain,
+            'domain' => $request->domain,
             'username' => $request->username,
             'password' => $request->password,
             'host' => $request->host,
-            'port' => $request->port
+            'port' => $request->port,
         ]);
         Toast::title('Berhasil.')
             ->message('Data server berhasil di update.')
             ->backdrop()
             ->autoDismiss(2);
+
         return to_route('server.index');
     }
 
@@ -122,6 +122,7 @@ class ServerController extends Controller
             ->message('Data server berhasil di hapus.')
             ->backdrop()
             ->autoDismiss(2);
+
         return to_route('server.index');
     }
 }

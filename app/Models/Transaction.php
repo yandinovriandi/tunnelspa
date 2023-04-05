@@ -10,10 +10,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Transaction extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
-    protected $casts =[
-        'status' => TransactionStatus::class
+
+    protected $casts = [
+        'status' => TransactionStatus::class,
     ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

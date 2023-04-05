@@ -9,10 +9,12 @@ use Illuminate\Http\Request;
 class UserBalaceController extends Controller
 {
     private TripayRepository $tripayRepository;
+
     public function __construct(TripayRepository $tripayRepository)
     {
         $this->tripayRepository = $tripayRepository;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -27,9 +29,10 @@ class UserBalaceController extends Controller
     public function create()
     {
         $paymentChannels = $this->tripayRepository->getPaymentChannels();
-         return view('balance.create',[
-             'paymentChannels' => $paymentChannels
-         ]);
+
+        return view('balance.create', [
+            'paymentChannels' => $paymentChannels,
+        ]);
     }
 
     /**

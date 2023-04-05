@@ -39,25 +39,25 @@ class PaymentController extends Controller
                 'private_key' => 'Private Key harus di isi',
                 'merchant_code' => 'Merchant Code tidak boleh kosong',
                 'url' => 'Isi URL website anda.',
-                'callback' => 'Callback URL harus di isi'
+                'callback' => 'Callback URL harus di isi',
             ]);
         }
         Payment::create([
-            'vendor'=> $request->vendor,
-            'mode'=> $request->mode,
-            'api_key'=> $request->api_key,
-            'private_key'=> $request->private_key,
-            'merchant_code'=> $request->merchant_code,
-            'url'=> $request->url,
-            'callback'=> $request->callback
+            'vendor' => $request->vendor,
+            'mode' => $request->mode,
+            'api_key' => $request->api_key,
+            'private_key' => $request->private_key,
+            'merchant_code' => $request->merchant_code,
+            'url' => $request->url,
+            'callback' => $request->callback,
         ]);
         Toast::title('Success!.')
             ->message('Data Pembayran otomatis telah di simpan.')
             ->backdrop()
             ->autoDismiss(5);
-        return to_route('payment.edit',$payment);
-    }
 
+        return to_route('payment.edit', $payment);
+    }
 
     /**
      * Display the specified resource.
@@ -72,8 +72,8 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
-        return view('payment.edit',[
-            'payment' => $payment
+        return view('payment.edit', [
+            'payment' => $payment,
         ]);
     }
 
@@ -90,23 +90,24 @@ class PaymentController extends Controller
                 'private_key' => 'Private Key harus di isi',
                 'merchant_code' => 'Merchant Code tidak boleh kosong',
                 'url' => 'Isi URL website anda.',
-                'callback' => 'Callback URL harus di isi'
+                'callback' => 'Callback URL harus di isi',
             ]);
         }
         $payment->update([
-            'vendor'=> $request->vendor,
-            'mode'=> $request->mode,
-            'api_key'=> $request->api_key,
-            'private_key'=> $request->private_key,
-            'merchant_code'=> $request->merchant_code,
-            'url'=> $request->url,
-            'callback'=> $request->callback
+            'vendor' => $request->vendor,
+            'mode' => $request->mode,
+            'api_key' => $request->api_key,
+            'private_key' => $request->private_key,
+            'merchant_code' => $request->merchant_code,
+            'url' => $request->url,
+            'callback' => $request->callback,
         ]);
         Toast::title('Success!.')
             ->message('Data Pembayran otomatis telah di simpan.')
             ->backdrop()
             ->autoDismiss(3);
-        return to_route('payment.edit',$payment);
+
+        return to_route('payment.edit', $payment);
     }
 
     /**

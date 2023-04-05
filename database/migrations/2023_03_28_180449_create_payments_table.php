@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->string('vendor');
-            $table->enum('mode', ['local','production '])->default('local');
+            $table->enum('mode', ['local', 'production '])->default('local');
             $table->string('api_key');
             $table->string('private_key');
             $table->string('merchant_code');

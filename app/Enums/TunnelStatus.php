@@ -2,7 +2,8 @@
 
 namespace App\Enums;
 
-enum TunnelStatus:string {
+enum TunnelStatus: string
+{
     case aktif = 'aktif';
     case nonaktif = 'nonaktif';
 }

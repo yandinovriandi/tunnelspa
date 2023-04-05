@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Server;
 use App\Models\Tunnel;
 use App\Models\UserBalace;
 use RouterOS\Client;
@@ -27,7 +26,7 @@ class RouterOsRepository
     public function getMikrotik($server): Client
     {
         $mikrotik = $server;
-        if (!$mikrotik) {
+        if (! $mikrotik) {
             throw new \Exception('Mikrotik not found.');
         }
 
@@ -36,9 +35,9 @@ class RouterOsRepository
             ->set('port', (int) $mikrotik->port)
             ->set('pass', $mikrotik->password)
             ->set('user', $mikrotik->username);
+
         return new Client($config);
     }
-
 
     /**
      * @throws ClientException
@@ -47,11 +46,12 @@ class RouterOsRepository
      * @throws BadCredentialsException
      * @throws ConfigException
      */
-    public function getUserSecret($server,$username)
+    public function getUserSecret($server, $username)
     {
         $client = $this->getMikrotik($server);
         $query = new Query('/ppp/active/print');
         $query->where('name', $username);
+
         return $client->query($query)->read();
     }
 
@@ -62,22 +62,23 @@ class RouterOsRepository
      * @throws BadCredentialsException
      * @throws ConfigException
      */
-    public function addTunnel( $server, $name, $pass, $localaddress, $remoteadress, $mainprofile)
+    public function addTunnel($server, $name, $pass, $localaddress, $remoteadress, $mainprofile)
     {
         $client = $this->getMikrotik($server);
         $query = new Query('/ppp/secret/add');
         $query->equal('name', $name);
         $query->equal('password', $pass);
         $query->equal('local-address', $localaddress);
-        if (!empty($localaddress)) {
+        if (! empty($localaddress)) {
             $query->equal('local-address', $localaddress);
         }
-        if (!empty($remoteadress)) {
+        if (! empty($remoteadress)) {
             $query->equal('remote-address', $remoteadress);
         }
         $query->equal('comment', strtoupper($name));
         $query->equal('profile', $mainprofile);
         $query->equal('service', 'any');
+
         return $client->query($query)->read();
     }
 
@@ -99,8 +100,9 @@ class RouterOsRepository
             ->equal('to-ports', '8728')
             ->equal('protocol', 'tcp')
             ->equal('dst-port', $portapi)
-            ->equal('comment', strtoupper($name . '-NAT-API'))
+            ->equal('comment', strtoupper($name.'-NAT-API'))
             ->equal('disabled', 'no');
+
         return $client->qr($api);
     }
 
@@ -122,8 +124,9 @@ class RouterOsRepository
             ->equal('to-ports', '8291')
             ->equal('protocol', 'tcp')
             ->equal('dst-port', $portwinbox)
-            ->equal('comment', strtoupper($name . '-NAT-WINBOX'))
+            ->equal('comment', strtoupper($name.'-NAT-WINBOX'))
             ->equal('disabled', 'no');
+
         return $client->qr($winbox);
     }
 
@@ -145,8 +148,9 @@ class RouterOsRepository
             ->equal('to-ports', '80')
             ->equal('protocol', 'tcp')
             ->equal('dst-port', $portweb)
-            ->equal('comment', strtoupper($name . '-NAT-WEB'))
+            ->equal('comment', strtoupper($name.'-NAT-WEB'))
             ->equal('disabled', 'no');
+
         return $client->qr($web);
     }
 
@@ -159,7 +163,7 @@ class RouterOsRepository
      * @throws BadCredentialsException
      * @throws ConfigException
      */
-    public function updatePortApi($rapi, $pap,$server)
+    public function updatePortApi($rapi, $pap, $server)
     {
         $client = $this->getMikrotik($server);
         $updatePortApi = new Query('/ip/firewall/nat/print');
@@ -183,20 +187,20 @@ class RouterOsRepository
      * @throws BadCredentialsException
      * @throws ConfigException
      */
-    public function updatePortWinbox($pwin, $win,$server)
-        {
-            $client = $this->getMikrotik($server);
-            $updatePortWinbox = new Query('/ip/firewall/nat/print');
-            $updatePortWinbox->where('dst-port', $win);
-            $wins = $client->query($updatePortWinbox)->read();
+    public function updatePortWinbox($pwin, $win, $server)
+    {
+        $client = $this->getMikrotik($server);
+        $updatePortWinbox = new Query('/ip/firewall/nat/print');
+        $updatePortWinbox->where('dst-port', $win);
+        $wins = $client->query($updatePortWinbox)->read();
 
-            foreach ($wins as $win) {
-                $updatePortWinbox = (new Query('/ip/firewal/nat/set'))
-                    ->equal('.id', $win['.id'])
-                    ->equal('to-ports',  $pwin);
-              $client->query($updatePortWinbox)->read();
-            }
+        foreach ($wins as $win) {
+            $updatePortWinbox = (new Query('/ip/firewal/nat/set'))
+                ->equal('.id', $win['.id'])
+                ->equal('to-ports', $pwin);
+            $client->query($updatePortWinbox)->read();
         }
+    }
 
         // ==============winbox================
 
@@ -209,20 +213,20 @@ class RouterOsRepository
              * @throws BadCredentialsException
              * @throws ConfigException
              */
-            public function updatePortWeb($pweb, $web,$server)
-        {
-            $client = $this->getMikrotik($server);
-            $updatePortWeb = new Query('/ip/firewall/nat/print');
-            $updatePortWeb->where('dst-port', $web);
-            $webs = $client->query($updatePortWeb)->read();
+            public function updatePortWeb($pweb, $web, $server)
+            {
+                $client = $this->getMikrotik($server);
+                $updatePortWeb = new Query('/ip/firewall/nat/print');
+                $updatePortWeb->where('dst-port', $web);
+                $webs = $client->query($updatePortWeb)->read();
 
-            foreach ($webs as $web) {
-                $updatePortWeb = (new Query('/ip/firewal/nat/set'))
-                    ->equal('.id', $web['.id'])
-                    ->equal('to-ports',  $pweb);
-                $client->query($updatePortWeb)->read();
+                foreach ($webs as $web) {
+                    $updatePortWeb = (new Query('/ip/firewal/nat/set'))
+                        ->equal('.id', $web['.id'])
+                        ->equal('to-ports', $pweb);
+                    $client->query($updatePortWeb)->read();
+                }
             }
-        }
         // ==============web================
 
     /**
@@ -232,7 +236,7 @@ class RouterOsRepository
      * @throws BadCredentialsException
      * @throws ConfigException
      */
-    public function updatePassPpp($username, $password,$server)
+    public function updatePassPpp($username, $password, $server)
     {
         $client = $this->getMikrotik($server);
         $updateTunnel = new Query('/ppp/secret/print');
@@ -256,7 +260,7 @@ class RouterOsRepository
      * @throws BadCredentialsException
      * @throws ConfigException
      */
-    public function deletePortApi($server,$pap)
+    public function deletePortApi($server, $pap)
     {
         $client = $this->getMikrotik($server);
         // ==============api================
@@ -293,7 +297,6 @@ class RouterOsRepository
             $client->query($updatePortWinbox)->read();
         }
         // ==============winbox================
-
     }
 
     /**
@@ -356,7 +359,7 @@ class RouterOsRepository
         foreach ($tunnels as $tunnel) {
             $expired = now()->gte($tunnel->expired); // compare current time to expired time
             if ($tunnel->status == 'nonaktif') {
-                \Log::info('Tunnel ' . $tunnel->username . ' belum expired ' . date('Y-m-d H:i:s'));
+                \Log::info('Tunnel '.$tunnel->username.' belum expired '.date('Y-m-d H:i:s'));
             } elseif ($expired) { // check if the tunnel is expired
                 $userBalance = UserBalace::where('user_id', $tunnel->user_id)->first();
                 $toDisable = 'yes';
@@ -364,7 +367,7 @@ class RouterOsRepository
                     $tunnel->update([
                         'expired' => now()->addMonth(),
                     ]);
-                    \Log::info("Akun tunnel $tunnel->username berhasil diperpanjang pada " . date('Y-m-d H:i:s'));
+                    \Log::info("Akun tunnel $tunnel->username berhasil diperpanjang pada ".date('Y-m-d H:i:s'));
                 } else {
                     $disableTunnel = new Query('/ppp/secret/print');
                     $disableTunnel->where('name', $tunnel->username);
@@ -380,11 +383,11 @@ class RouterOsRepository
                     $activeTunnels = $client->query('/ppp/active/print')->read();
                     foreach ($activeTunnels as $actv) {
                         $remove = (new Query('/ppp/active/remove'))
-                            ->where('name' , $tunnel->username)
+                            ->where('name', $tunnel->username)
                             ->equal('.id', $actv['.id']);
                         $client->query($remove)->read();
                     }
-                    \Log::info("Akun tunnel $tunnel->username berhasil di-suspend pada " . date('Y-m-d H:i:s'));
+                    \Log::info("Akun tunnel $tunnel->username berhasil di-suspend pada ".date('Y-m-d H:i:s'));
                 }
                 $tunnel->update([
                     'balance' => $userBalance ? $userBalance->balance : 0, // update the balance of the tunnel user
@@ -392,7 +395,6 @@ class RouterOsRepository
             }
         }
     }
-
 
 //    public function disableWithSch($server)
 //    {
@@ -438,24 +440,23 @@ class RouterOsRepository
      * @throws BadCredentialsException
      * @throws ConfigException
      */
-    public function disablePpp($server,$username): void
+    public function disablePpp($server, $username)
     {
         $client = $this->getMikrotik($server);
         $tunnels = Tunnel::get();
-        foreach ($tunnels as $tunnel) { 
-                $toDisable = 'yes';
-                $disableTunnel = new Query('/ppp/secret/print');
-                $disableTunnel->where('name', $username);
-                $disabletnls = $client->query($disableTunnel)->read();
+        foreach ($tunnels as $ignored1) {
+            $toDisable = 'yes';
+            $disableTunnel = new Query('/ppp/secret/print');
+            $disableTunnel->where('name', $username);
+            $disabletnls = $client->query($disableTunnel)->read();
 
-                foreach ($disabletnls as $dtnl) {
-                    $disable = (new Query('/ppp/secret/set')) // change variable name for clarity
-                    ->where('name', $username)
-                        ->equal('.id', $dtnl['.id'])
-                        ->equal('disabled', $toDisable);
-                    $client->query($disable)->read();
-                }
+            foreach ($disabletnls as $ignored) {
+                $disable = (new Query('/ppp/secret/set'))
+                ->where('name', $username)
+                    ->equal('disabled', $toDisable);
+                $client->query($disable)->read();
             }
+        }
     }
 
     /**
@@ -465,17 +466,17 @@ class RouterOsRepository
      * @throws QueryException
      * @throws ConfigException
      */
-    public function deleteActiveSecret($server,$username)
+    public function deleteActiveSecret($server, $username)
     {
-        $client=$this->getMikrotik($server);
-         $activeTunnels = $client->query('/ppp/active/print')->read();
-            foreach ($activeTunnels as $actv) {
-                $remove = (new Query('/ppp/active/remove'))
-                    ->where('name' , $username)
-                    ->equal('.id', $actv['.id']);
-                $client->query($remove)->read();
-            }
+        $client = $this->getMikrotik($server);
+        $activeTunnels = $client->query('/ppp/active/print')->read();
+        foreach ($activeTunnels as $actv) {
+            $remove = (new Query('/ppp/active/remove'))
+                ->where('name', $username)
+                ->equal('.id', $actv['.id']);
+            $client->query($remove)->read();
         }
+    }
 
     /**
      * @throws ClientException
@@ -486,13 +487,13 @@ class RouterOsRepository
      */
     public function enablePppSecret($server, $username)
     {
-        $client=$this->getMikrotik($server);
+        $client = $this->getMikrotik($server);
         $query = new Query('/ppp/secret/print');
         $query->where('name', $username);
         $disabledSecrets = $client->query($query)->read();
         foreach ($disabledSecrets as $disabledSecret) {
             $enable = (new Query('/ppp/secret/enable'))
-                ->where('name' , $username)
+                ->where('name', $username)
                 ->equal('.id', $disabledSecret['.id']);
             $client->query($enable)->read();
         }

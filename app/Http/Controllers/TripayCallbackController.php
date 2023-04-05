@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use App\Models\UserBalace;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
-use App\Models\Transaction;
 
 class TripayCallbackController extends Controller
 {
@@ -14,7 +14,7 @@ class TripayCallbackController extends Controller
     public function __construct()
     {
         $payment = \App\Models\Payment::first();
-            $this->privateKey = $payment->private_key;
+        $this->privateKey = $payment->private_key;
     }
     // Isi dengan private key anda
 
@@ -56,12 +56,12 @@ class TripayCallbackController extends Controller
                 ->first();
             UserBalace::create([
                 'user_id' => $transaction->user_id,
-                'balance' => $transaction->amount
+                'balance' => $transaction->amount,
             ]);
             if (! $transaction) {
                 return Response::json([
                     'success' => false,
-                    'message' => 'No invoice found or already paid: ' . $uniqueRef,
+                    'message' => 'No invoice found or already paid: '.$uniqueRef,
                 ]);
             }
 
@@ -89,4 +89,3 @@ class TripayCallbackController extends Controller
         }
     }
 }
-

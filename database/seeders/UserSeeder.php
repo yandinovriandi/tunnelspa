@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -17,7 +16,7 @@ class UserSeeder extends Seeder
             'name' => 'Yandi Novriandi',
             'email' => 'yandi@mikrotikbot.com',
             'password' => bcrypt('password'),
-             'email_verified_at' => now()
+            'email_verified_at' => now(),
         ]);
     }
 }

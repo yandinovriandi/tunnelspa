@@ -35,8 +35,9 @@ class TunnelController extends Controller
      */
     public function index()
     {
-        $tunnels = Tunnel::where('user_id',auth()->user()->id)->paginate(5);
-        return view('tunnel.index',[
+        $tunnels = Tunnel::where('user_id', auth()->user()->id)->paginate(5);
+
+        return view('tunnel.index', [
             'tunnels' => SpladeTable::for($tunnels)
                 ->column('username',
                     sortable: true
@@ -48,14 +49,15 @@ class TunnelController extends Controller
                 ->column('status')
                 ->column('expired')
                 ->column('actions')
-//                ->paginate(5)
+            //                ->paginate(5)
             ,
 
         ]);
     }
+
     public function async()
     {
-        return view('tunnel.async',[
+        return view('tunnel.async', [
             'tunnels' => SpladeTable::for(Tunnel::class)
                 ->column('username',
                     sortable: true
@@ -67,22 +69,22 @@ class TunnelController extends Controller
                 ->column('status')
                 ->column('expired')
                 ->column('actions')
-                ->paginate(5)
-            ,
+                ->paginate(5),
 
         ]);
     }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $servers = Server::pluck('name','id')->toArray();
-        return view('tunnel.create',[
-            'servers' => $servers
-       ]);
-    }
+        $servers = Server::pluck('name', 'id')->toArray();
 
+        return view('tunnel.create', [
+            'servers' => $servers,
+        ]);
+    }
 
     /**
      * @throws ClientException
@@ -92,103 +94,104 @@ class TunnelController extends Controller
      * @throws ConfigException
      */
     public function store(Request $request)
-{
-    $server = Server::where('id', $request->server_id)->first();
-    $previousPorts = Tunnel::pluck('api')->merge(Tunnel::pluck('web'))->merge(Tunnel::pluck('winbox'))->toArray();
-    $portapi = generatePort(4, $previousPorts);
-    $portwinbox = generatePort(4, $previousPorts);
-    $portweb = generatePort(4, $previousPorts);
-    $existing_ips = Tunnel::pluck('ip_tunnel');
-    $iptunnel = '10.10.11.' . rand(40, 253);
-    while ($existing_ips->contains($iptunnel)) {
-        $iptunnel = '10.10.11.' . rand(40, 253);
-    }
-    $localaddress = '10.10.11.1';
+    {
+        $server = Server::where('id', $request->server_id)->first();
+        $previousPorts = Tunnel::pluck('api')->merge(Tunnel::pluck('web'))->merge(Tunnel::pluck('winbox'))->toArray();
+        $portapi = generatePort(4, $previousPorts);
+        $portwinbox = generatePort(4, $previousPorts);
+        $portweb = generatePort(4, $previousPorts);
+        $existing_ips = Tunnel::pluck('ip_tunnel');
+        $iptunnel = '10.10.11.'.rand(40, 253);
+        while ($existing_ips->contains($iptunnel)) {
+            $iptunnel = '10.10.11.'.rand(40, 253);
+        }
+        $localaddress = '10.10.11.1';
 
-    $debit = auth()->user()->balances()->where('balance', '>=', 0)->get('balance')->sum('balance');
-    $credit = auth()->user()->balances()->where('balance', '<', 0)->get('balance')->sum('balance');
-    $balance = $debit + $credit;
+        $debit = auth()->user()->balances()->where('balance', '>=', 0)->get('balance')->sum('balance');
+        $credit = auth()->user()->balances()->where('balance', '<', 0)->get('balance')->sum('balance');
+        $balance = $debit + $credit;
 
-    if (empty($request->username)) {
-        throw ValidationException::withMessages([
-            'server_id' => 'Pilih server terlebih dahulu',
-            'username' => 'Username tidak boleh kosong Silahkan isi username',
-            'password' => 'Password tidak boleh kosong',
+        if (empty($request->username)) {
+            throw ValidationException::withMessages([
+                'server_id' => 'Pilih server terlebih dahulu',
+                'username' => 'Username tidak boleh kosong Silahkan isi username',
+                'password' => 'Password tidak boleh kosong',
+            ]);
+        }
+
+        if ($balance <= 0) {
+            Toast::title('Gagal membuat tunnel!.')
+                ->message('Balance anda tidak mencukupi.')
+                ->warning()
+                ->backdrop()
+                ->autoDismiss(5);
+
+            return to_route('tunnels.create');
+        }
+
+        $request->validate([
+            'server_id' => ['required'],
+            'username' => ['required', Rule::unique('tunnels', 'username')],
+            'password' => ['required', 'min:6'],
         ]);
+        $mainprofile = 'default';
+
+        try {
+            DB::beginTransaction();
+            auth()->user()->tunnels()->create([
+                'username' => $name = $request->username,
+                'password' => $pass = $request->password,
+                'ip_server' => $server->host,
+                'server_id' => $request->server_id,
+                'server' => $server->name,
+                'local_addrss' => $localaddress,
+                'ip_tunnel' => $remoteadress = $iptunnel,
+                'domain' => $server->domain,
+                'api' => $portapi,
+                'winbox' => $portwinbox,
+                'to_ports_api' => '8728',
+                'to_ports_winbox' => '8291',
+                'to_ports_web' => '80',
+                'web' => $portweb,
+                'expired' => now()->addMonth(),
+            ]);
+
+            auth()->user()->transactions()->create([
+                'amount' => 5000,
+                'reference' => 'TUN'.time(),
+                'merchant_ref' => 'TINV-'.time(),
+                'type' => 'Order Layanan Tunnel',
+                'status' => 'PAID',
+            ]);
+
+            auth()->user()->balances()->create([
+                'balance' => -5000,
+            ]);
+            $this->routerOsRepository->addTunnel($server, $name, $pass, $localaddress, $remoteadress, $mainprofile);
+            $this->routerOsRepository->addFirewallNatApi($server, $name, $remoteadress, $portapi);
+            $this->routerOsRepository->addFirewallNatWinbox($server, $name, $remoteadress, $portwinbox);
+            $this->routerOsRepository->addFirewallNatWeb($server, $name, $remoteadress, $portweb);
+
+            DB::commit();
+            Toast::title('Tunnel remote berhasil di buat.')
+                ->message('Anda berhasil membuat tunnel remote.')
+                ->backdrop()
+                ->autoDismiss(3);
+
+            return to_route('tunnels.index');
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 
-    if ($balance <= 0) {
-        Toast::title('Gagal membuat tunnel!.')
-            ->message('Balance anda tidak mencukupi.')
-            ->warning()
-            ->backdrop()
-            ->autoDismiss(5);
-        return to_route('tunnels.create');
-    }
-
-    $request->validate([
-        'server_id' => ['required'],
-        'username' => ['required', Rule::unique('tunnels', 'username')],
-        'password' => ['required', 'min:6'],
-    ]);
-    $mainprofile = 'default';
-
-    try {
-        DB::beginTransaction();
-        auth()->user()->tunnels()->create([
-            'username' => $name = $request->username,
-            'password' => $pass = $request->password,
-            'ip_server' => $server->host,
-            'server_id' => $request->server_id,
-            'server' => $server->name,
-            'local_addrss' => $localaddress,
-            'ip_tunnel' => $remoteadress = $iptunnel,
-            'domain' => $server->domain,
-            'api' => $portapi,
-            'winbox' => $portwinbox,
-            'to_ports_api' => '8728',
-            'to_ports_winbox' => '8291',
-            'to_ports_web' => '80',
-            'web' => $portweb,
-            'expired' => now()->addMonth()
-        ]);
-
-        auth()->user()->transactions()->create([
-            'amount' => 5000,
-            'reference' => 'TUN' . time(),
-            'merchant_ref' => 'TINV-' . time(),
-            'type' => 'Order Layanan Tunnel',
-            'status' => 'PAID',
-        ]);
-
-        auth()->user()->balances()->create([
-            'balance' => -5000,
-        ]);
-        $this->routerOsRepository->addTunnel($server,$name, $pass, $localaddress, $remoteadress, $mainprofile);
-        $this->routerOsRepository->addFirewallNatApi($server,$name, $remoteadress, $portapi);
-        $this->routerOsRepository->addFirewallNatWinbox($server,$name, $remoteadress, $portwinbox);
-        $this->routerOsRepository->addFirewallNatWeb($server,$name, $remoteadress, $portweb);
-
-        DB::commit();
-        Toast::title('Tunnel remote berhasil di buat.')
-            ->message('Anda berhasil membuat tunnel remote.')
-            ->backdrop()
-            ->autoDismiss(3);
-        return to_route('tunnels.index');
-
-    } catch (\Exception $e) {
-        DB::rollback();
-        throw $e;
-    }
-
-}
     /**
      * Display the specified resource.
      */
     public function show(Tunnel $tunnel)
     {
-        return view('tunnel.show',[
-            'tunnel' => $tunnel
+        return view('tunnel.show', [
+            'tunnel' => $tunnel,
         ]);
     }
 
@@ -197,15 +200,17 @@ class TunnelController extends Controller
      */
     public function edit(Tunnel $tunnel)
     {
-        return view('tunnel.edit',[
-            'tunnel' => $tunnel
+        return view('tunnel.edit', [
+            'tunnel' => $tunnel,
         ]);
     }
+
     public function sync(Tunnel $tunnel)
     {
         $servers = Server::get();
         $users = User::get();
-        return view('tunnel.sync',[
+
+        return view('tunnel.sync', [
             'tunnel' => $tunnel,
             'servers' => $servers,
             'users' => $users,
@@ -231,9 +236,9 @@ class TunnelController extends Controller
         $tunnel->update([
             'auto_renew' => $auto_renew,
             'password' => $password,
-            'to_ports_web' =>  $to_ports_web,
-            'to_ports_api' =>  $to_ports_api,
-            'to_ports_winbox' =>  $to_ports_winbox
+            'to_ports_web' => $to_ports_web,
+            'to_ports_api' => $to_ports_api,
+            'to_ports_winbox' => $to_ports_winbox,
         ]);
 
         $username = $tunnel->username;
@@ -241,26 +246,27 @@ class TunnelController extends Controller
         // ==============api================
         $rapi = $request->api;
         $pap = $tunnel->api;
-        $this->routerOsRepository->updatePortApi($rapi, $pap,$server);
+        $this->routerOsRepository->updatePortApi($rapi, $pap, $server);
         // ==============api================
 
         // ==============winbox================
         $pwin = $request->winbox;
         $win = $tunnel->winbox;
-         $this->routerOsRepository->updatePortWinbox($pwin, $win,$server);
+        $this->routerOsRepository->updatePortWinbox($pwin, $win, $server);
         // ==============winbox================
 
         // ==============web================
         $pweb = $request->web;
         $web = $tunnel->web;
-        $this->routerOsRepository->updatePortWeb($pweb, $web,$server);
+        $this->routerOsRepository->updatePortWeb($pweb, $web, $server);
         // ==============web================
-        $this->routerOsRepository->updatePassPpp($username, $password,$server);
+        $this->routerOsRepository->updatePassPpp($username, $password, $server);
 
         Toast::title('Updated Tunnel.')
             ->message('Anda berhasil mengupdate tunnel remote.')
             ->backdrop()
             ->autoDismiss(2);
+
         return to_route('tunnels.show', $tunnel);
     }
 
@@ -285,14 +291,15 @@ class TunnelController extends Controller
         $to_ports_web = $request->to_ports_web;
         $to_ports_api = $request->to_ports_api;
         $to_ports_winbox = $request->to_ports_winbox;
+        $expired = $request->expired;
         $tunnel->update([
             'status' => $status,
             'server_id' => $sid,
             'user_id' => $uid,
             'password' => $password,
-            'to_ports_web' =>  $to_ports_web,
-            'to_ports_api' =>  $to_ports_api,
-            'to_ports_winbox' =>  $to_ports_winbox,
+            'to_ports_web' => $to_ports_web,
+            'to_ports_api' => $to_ports_api,
+            'to_ports_winbox' => $to_ports_winbox,
             'username' => $tunnel->username,
             'ip_server' => $server->host,
             'server' => $server->name,
@@ -302,7 +309,7 @@ class TunnelController extends Controller
             'domain' => $server->domain,
             'api' => $tunnel->api,
             'winbox' => $tunnel->winbox,
-            'expired' => $tunnel->expired,
+            'expired' => $expired,
             'web' => $tunnel->web,
         ]);
 
@@ -311,28 +318,30 @@ class TunnelController extends Controller
         // ==============api================
         $rapi = $request->api;
         $pap = $tunnel->api;
-        $this->routerOsRepository->updatePortApi($rapi, $pap,$server);
+        $this->routerOsRepository->updatePortApi($rapi, $pap, $server);
         // ==============api================
 
         // ==============winbox================
         $pwin = $request->winbox;
         $win = $tunnel->winbox;
-        $this->routerOsRepository->updatePortWinbox($pwin, $win,$server);
+        $this->routerOsRepository->updatePortWinbox($pwin, $win, $server);
         // ==============winbox================
 
         // ==============web================
         $pweb = $request->web;
         $web = $tunnel->web;
-        $this->routerOsRepository->updatePortWeb($pweb, $web,$server);
+        $this->routerOsRepository->updatePortWeb($pweb, $web, $server);
         // ==============web================
-        $this->routerOsRepository->updatePassPpp($username, $password,$server);
+        $this->routerOsRepository->updatePassPpp($username, $password, $server);
 
         Toast::title('Success reasync Tunnel.')
             ->message('Anda berhasil mengupdate tunnel remote.')
             ->backdrop()
             ->autoDismiss(2);
+
         return to_route('tunnels.show', $tunnel);
     }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -344,17 +353,18 @@ class TunnelController extends Controller
         $pap = $tunnel->api;
         $win = $tunnel->winbox;
         $web = $tunnel->web;
-        $this->routerOsRepository->disablePpp($server,$username);
+        $this->routerOsRepository->disablePpp($server, $username);
         $this->routerOsRepository->deletePortApi($server, $pap);
         $this->routerOsRepository->deletePortWeb($server, $web);
         $this->routerOsRepository->deletePortWinbox($server, $win);
-        $this->routerOsRepository->deletePppSecret($username,$server);
+        $this->routerOsRepository->deletePppSecret($username, $server);
         $this->routerOsRepository->deleteActiveSecret($server, $username);
         $tunnel->delete();
         Toast::title('Success deleted.')
             ->message('Tunnel berhasil di hapus.')
             ->backdrop()
             ->autoDismiss(2);
+
         return to_route('tunnels.index');
     }
 
@@ -373,12 +383,13 @@ class TunnelController extends Controller
         $this->routerOsRepository->deleteActiveSecret($server, $username);
 
         $tunnel->update([
-            'status' => 'nonaktif'
+            'status' => 'nonaktif',
         ]);
         Toast::title('Success disabled.')
             ->message('Tunnel berhasil di nonaktifkan.')
             ->backdrop()
             ->autoDismiss(2);
+
         return back();
     }
 
@@ -393,7 +404,7 @@ class TunnelController extends Controller
     {
         $tunnels = Tunnel::get();
         foreach ($tunnels as $tunnel) {
-            $server = Server::where('id',$tunnel->server_id)->first();
+            $server = Server::where('id', $tunnel->server_id)->first();
             $this->routerOsRepository->disableWithSch($server);
             // gunakan $routerOsRepository untuk melakukan koneksi dan pengaturan pada Mikrotik
         }
@@ -413,8 +424,8 @@ class TunnelController extends Controller
             $server = Server::where('id', $tunnel->server_id)->first();
             $username = $tunnel->username ?? '';
 
-            if (!empty($username)) {
-                $this->routerOsRepository->enablePppSecret($server,$username);
+            if (! empty($username)) {
+                $this->routerOsRepository->enablePppSecret($server, $username);
             }
             $tunnel->update([
                 'status' => 'aktif',
@@ -423,19 +434,20 @@ class TunnelController extends Controller
             Transaction::create([
                 'user_id' => $tunnel->user_id,
                 'amount' => 5000,
-                'reference' => 'RTUN' . time(),
-                'merchant_ref' => 'RTINV-' . time(),
+                'reference' => 'RTUN'.time(),
+                'merchant_ref' => 'RTINV-'.time(),
                 'type' => 'Perpanjang Layanan Tunnel',
                 'status' => 'PAID',
             ]);
             $userBalance->create([
                 'user_id' => $tunnel->user_id,
-                'balance' => -5000
+                'balance' => -5000,
             ]);
             Toast::title('Success.')
                 ->message('Tunnel berhasil di perpanjang.')
                 ->backdrop()
                 ->autoDismiss(2);
+
             return back();
         } catch (ModelNotFoundException $e) {
             // Handle the case where the UserBalance or Server model is not found
@@ -449,9 +461,8 @@ class TunnelController extends Controller
                 ->warning()
                 ->backdrop()
                 ->autoDismiss(2);
+
             return back();
         }
     }
-
-
 }

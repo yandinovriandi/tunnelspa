@@ -16,7 +16,7 @@
                             <div class="bg-white border text-slate-800 group relative block !border-none rounded-xl p-3 shadow lg:p-6">
                                 <div class="mb-2 flex items-center justify-between">
                                     <h4 class="font-mono text-base tracking-tighter sm:text-3xl">
-                                       @if($tunnel->status == 'aktif')
+                                       @if($tunnel->status == \App\Enums\TunnelAutoRenew::aktif)
                                             <div role="status">
                                                 <svg aria-hidden="true" class="w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -44,8 +44,8 @@
                                 </div>
                                 <span class="grid grid-cols-4">
                                 <span class="text-xs tracking-tight text-muted sm:text-sm">
-                                    {{$tunnel->status =='aktif' ? 'aktif':'nonaktif'}}
-                                    @if($tunnel->status == 'aktif')
+                                    {{$tunnel->status == \App\Enums\TunnelStatus::aktif ? 'aktif':'nonaktif'}}
+                                    @if($tunnel->status == \App\Enums\TunnelStatus::aktif)
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-autofit-content-filled text-green-600" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                            <path d="M6.707 3.293a1 1 0 0 1 .083 1.32l-.083 .094l-1.292 1.293h4.585a1 1 0 0 1 .117 1.993l-.117 .007h-4.585l1.292 1.293a1 1 0 0 1 .083 1.32l-.083 .094a1 1 0 0 1 -1.32 .083l-.094 -.083l-3 -3a1.008 1.008 0 0 1 -.097 -.112l-.071 -.11l-.054 -.114l-.035 -.105l-.025 -.118l-.007 -.058l-.004 -.09l.003 -.075l.017 -.126l.03 -.111l.044 -.111l.052 -.098l.064 -.092l.083 -.094l3 -3a1 1 0 0 1 1.414 0z" stroke-width="0" fill="currentColor"></path>

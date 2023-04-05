@@ -55,9 +55,9 @@ return [
      * @see https://splade.dev/docs/form-file
      */
     'file_uploads' => [
-        'disk'                    => '',
+        'disk' => '',
         'temporary_file_lifetime' => 60 * 60, // 1 hour
-        'route'                   => '/_splade/fileUpload',
+        'route' => '/_splade/fileUpload',
     ],
 
     /**
@@ -66,12 +66,12 @@ return [
      * @see https://splade.dev/docs/form-overview
      */
     'blade' => [
-        'component_prefix'           => 'splade',
-        'table_cell_directive'       => 'cell',
+        'component_prefix' => 'splade',
+        'table_cell_directive' => 'cell',
         'escape_validation_messages' => true,
-        'seo_title_directive'        => 'seoTitle',
-        'seo_description_directive'  => 'seoDescription',
-        'seo_keywords_directive'     => 'seoKeywords',
+        'seo_title_directive' => 'seoTitle',
+        'seo_description_directive' => 'seoDescription',
+        'seo_keywords_directive' => 'seoKeywords',
     ],
 
     /**
@@ -80,8 +80,8 @@ return [
      * @see https://splade.dev/docs/ssr
      */
     'ssr' => [
-        'enabled'        => env('SPLADE_SSR_ENABLED', false),
-        'server'         => 'http://127.0.0.1:9000/',
+        'enabled' => env('SPLADE_SSR_ENABLED', false),
+        'server' => 'http://127.0.0.1:9000/',
         'blade_fallback' => true,
     ],
 
@@ -91,7 +91,7 @@ return [
      * @see https://splade.dev/docs/form-select
      */
     'dusk' => [
-        'choices_select_macro'      => 'choicesSelect',
+        'choices_select_macro' => 'choicesSelect',
         'choices_remove_item_macro' => 'choicesRemoveItem',
     ],
 ];

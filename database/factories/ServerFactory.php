@@ -18,8 +18,8 @@ class ServerFactory extends Factory
     public function definition(): array
     {
         return [
-           'name' => $name = $this->faker->sentence(3),
-            'slug' => str($name . '-' . Str::random(6))->slug(),
+            'name' => $name = $this->faker->sentence(3),
+            'slug' => str($name.'-'.Str::random(6))->slug(),
             'domain' => $this->faker->domainName(),
             'host' => $this->faker->ipv4(),
             'username' => $this->faker->userName(),

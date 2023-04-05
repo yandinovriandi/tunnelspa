@@ -13,9 +13,10 @@ function generatePort($digits = 4, $previousPorts = []): string
         }
 
         // Check if the new port is already in the previousPorts array
-        if (!in_array($newPort, $previousPorts)) {
+        if (! in_array($newPort, $previousPorts)) {
             // If it is not, add the new port to the previousPorts array and return it as the result
             $previousPorts[] = $newPort;
+
             return $newPort;
         }
 

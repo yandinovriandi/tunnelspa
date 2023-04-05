@@ -2,7 +2,8 @@
 
 namespace App\Enums;
 
-enum TunnelAutoRenew:string {
+enum TunnelAutoRenew: string
+{
     case aktif = 'aktif';
     case aonaktif = 'nonaktif';
 }

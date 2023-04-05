@@ -15,7 +15,6 @@
 
         'enabled' => env('PREQUEL_ENABLED', true),
 
-
         /*
         |--------------------------------------------------------------------------
         | Prequel Locale : string
@@ -26,7 +25,6 @@
         */
 
         'locale' => env('APP_LOCALE', 'en'),
-
 
         /*
         |--------------------------------------------------------------------------
@@ -39,7 +37,6 @@
         */
 
         'path' => 'prequel',
-
 
         /*
         |--------------------------------------------------------------------------
@@ -67,13 +64,12 @@
         */
 
         'suffixes' => [
-            'model'      => 'Models\\',
-            'seeder'     => 'Seeder',
-            'factory'    => 'Factory',
+            'model' => 'Models\\',
+            'seeder' => 'Seeder',
+            'factory' => 'Factory',
             'controller' => 'Controller',
-            'resource'   => 'Resource',
+            'resource' => 'Resource',
         ],
-
 
         /*
         |--------------------------------------------------------------------------
@@ -86,13 +82,12 @@
 
         'database' => [
             'connection' => env('DB_CONNECTION', 'mysql'),
-            'host'       => env('DB_HOST', '127.0.0.1'),
-            'port'       => env('DB_PORT', '3306'),
-            'database'   => env('DB_DATABASE', 'spaldebreeze'),
-            'username'   => env('DB_USERNAME', 'root'),
-            'password'   => env('DB_PASSWORD', 'Gh@niy@210307'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'spaldebreeze'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', 'Gh@niy@210307'),
         ],
-
 
         /*
         |--------------------------------------------------------------------------
@@ -115,7 +110,6 @@
             // 'mysql'               => ['*'],
         ],
 
-
         /*
         |--------------------------------------------------------------------------
         | Prequel pagination per page : integer
@@ -127,7 +121,6 @@
         */
 
         'pagination' => 100,
-
 
         /*
         |--------------------------------------------------------------------------
