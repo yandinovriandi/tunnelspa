@@ -14,6 +14,7 @@
         "laravel/tinker": "^2.8",
         "protonemedia/laravel-splade-breeze": "^2.5",
         "protoqol/prequel": "^1.22",
+        "pusher/pusher-php-server": "^7.2",
         "rap2hpoutre/laravel-log-viewer": "^2.3",
         "spatie/laravel-permission": "^5.10",
         "spatie/laravel-query-builder": "^5.2"
