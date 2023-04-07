@@ -9,6 +9,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use ProtoneMedia\Splade\Facades\Splade;
 
 class TransactionPaid implements ShouldBroadcast, ShouldQueue
 {
@@ -32,7 +33,14 @@ class TransactionPaid implements ShouldBroadcast, ShouldQueue
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('transaction.paid'.$this->transaction->user_id),
+            new PrivateChannel('transaction.paid.'.$this->transaction->user_id),
         ];
     }
+
+//    public function broadcastWith()
+//    {
+//        return [
+//            Splade::redirectOnEvent()->route('dashboard', $this->transaction->id),
+//        ];
+//    }
 }

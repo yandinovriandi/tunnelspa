@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TransactionPaid;
 use App\Models\Transaction;
 use App\Repositories\TripayRepository;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Facades\Toast;
+use Pusher\PusherException;
 
 class TransactionController extends Controller
 {

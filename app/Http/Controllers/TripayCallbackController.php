@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TransactionPaid;
 use App\Models\Transaction;
 use App\Models\UserBalace;
 use Illuminate\Http\Request;
@@ -68,6 +69,7 @@ class TripayCallbackController extends Controller
             switch ($status) {
                 case 'PAID':
                     $transaction->update(['status' => 'PAID']);
+                    broadcast(new TransactionPaid($transaction));
                     break;
 
                 case 'EXPIRED':
