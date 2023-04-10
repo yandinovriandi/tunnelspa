@@ -7,11 +7,9 @@
             <Link href="{{route('dashboard')}}" class="px-2 py-1.5 bg-indigo-500 text-indigo-100 font-semibold hover:bg-indigo-700 hover:text-white rounded-md">Back</Link>
         </div>
     </x-slot>
-{{--    <x-splade-event private channel="transaction.paid" listen="TransactionPaid" />--}}
     <div class="py-6">
         <div class="mx-auto max-w-screen-lg">
             <div class="rounded-lg border border bg-white p-4 shadow-lg dark:border-gray-200 dark:bg-gray-50 md:p-6 xl:p-9">
-
                     <div class="flex flex-col-reverse gap-5 xl:flex-row xl:justify-between">
                         <div class="flex flex-col gap-4 sm:flex-row xl:gap-9">
                             <div>

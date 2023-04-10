@@ -17,30 +17,27 @@
                             {{ __('Dashboard') }}
                         </x-nav-link>
                         @can('create payment')
-                            @php
-                                $payment = \App\Models\Payment::get();
-                            @endphp
-                            @if($payment->count() == 0)
-                                <x-nav-link :href="route('payment.create')" :active="request()->routeIs('payment*')">
-                                    {{ __('Payment') }}
-                                </x-nav-link>
-                            @else
-                                @if($payment->count() == 1)
-                                    <x-nav-link :href="route('payment.edit',$payment->first())" :active="request()->routeIs('payment*')">
-                                        {{ __('Payment') }}
-                                    </x-nav-link>
-                                    {{--                            @else--}}
-                                    {{--                                <x-nav-link :href="route('payment.edit',$payment->where('is_default', true)->first())">--}}
-                                    {{--                                    {{ __('Payment') }}--}}
-                                    {{--                                </x-nav-link>--}}
-                                @endif
-                            @endif
-
-                        @endcan
-                        @can('create server')
                             <x-nav-link :href="route('server.index')" :active="request()->routeIs('server*')">
                                 {{ __('Server') }}
                             </x-nav-link>
+                            @php
+                                $payment = \App\Models\Payment::first();
+                                $bottelegram = \App\Models\Bottelegram::first();
+                                $whatsapp = \App\Models\Whatsapp::first();
+                            @endphp
+
+                            <x-nav-link :href="route($payment ? 'payment.edit' : 'payment.create', $payment ?? '')" :active="request()->routeIs('payment*')">
+                                {{ __('Payment') }}
+                            </x-nav-link>
+
+                            <x-nav-link :href="route($bottelegram ? 'bottelegram.edit' : 'bottelegram.create', $bottelegram ?? '')" :active="request()->routeIs('bottelegram*')">
+                                {{ __('Telegram') }}
+                            </x-nav-link>
+
+                            <x-nav-link :href="route($whatsapp ? 'whatsapp.edit' : 'whatsapp.create', $whatsapp ?? '')" :active="request()->routeIs('whatsapp*')">
+                                {{ __('Whatsapp') }}
+                            </x-nav-link>
+
                         @endcan
                         <x-nav-link :href="route('tunnels.index')" :active="request()->routeIs('tunnels*')">
                             {{ __('Tunnels') }}
@@ -74,24 +71,15 @@
                                 {{ __('Balance') }}
                             </x-dropdown-link>
                             @can('create payment')
-                            @php
-                                $payment = new \App\Models\Payment();
-                            @endphp
-                            @if($payment->count() == 0)
-                                <x-dropdown-link :href="route('payment.create')">
-                                    {{ __('Payment') }}
+                                @php
+                                    $paymentCount = \App\Models\Payment::count();
+                                    $payment = \App\Models\Payment::first();
+                                @endphp
+
+                                <x-dropdown-link :href="($paymentCount == 0) ? route('payment.create') : (($paymentCount == 1) ? route('payment.edit', $payment) : route('payment.index'))">
+                                    {{ ($paymentCount == 0) ? __('Payment') : (($paymentCount == 1) ? __('Payment') : __('Payments')) }}
                                 </x-dropdown-link>
-                            @else
-                                @if($payment->count() == 1)
-                                    <x-dropdown-link :href="route('payment.edit',$payment->first())">
-                                        {{ __('Payment') }}
-                                    </x-dropdown-link>
-                                @else
-{{--                                    <x-dropdown-link :href="route('payment.edit',$payment)">--}}
-{{--                                        {{ __('Payment') }}--}}
-{{--                                    </x-dropdown-link>--}}
-                                @endif
-                            @endif
+
                             @endcan
                             @can('create server')
                             <x-dropdown-link :href="route('server.index')">

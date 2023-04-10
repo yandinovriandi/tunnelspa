@@ -20,8 +20,13 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
-//
-// window.Echo.channel('transaction.paid').listen('TransactionPaid',(event) => {
-//     console.log('berhasil');
-//     console.log(event);
-// })
+
+// window.Echo.channel('transaction.paid').listen('TransactionPaid', (event) => {
+//     window.location.href = '/dashboard';
+// });
+
+
+
+
+
+

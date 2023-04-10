@@ -393,22 +393,6 @@ class TunnelController extends Controller
         return back();
     }
 
-    /**
-     * @throws ClientException
-     * @throws ConnectException
-     * @throws QueryException
-     * @throws BadCredentialsException
-     * @throws ConfigException
-     */
-    public function cekExpiredTunnels()
-    {
-        $tunnels = Tunnel::get();
-        foreach ($tunnels as $tunnel) {
-            $server = Server::where('id', $tunnel->server_id)->first();
-            $this->routerOsRepository->disableWithSch($server);
-            // gunakan $routerOsRepository untuk melakukan koneksi dan pengaturan pada Mikrotik
-        }
-    }
 
     /**
      * @throws ClientException
@@ -465,4 +449,54 @@ class TunnelController extends Controller
             return back();
         }
     }
+
+    public function perpanjang(Tunnel $tunnel)
+    {
+        try {
+            $userBalance = UserBalace::where('user_id', $tunnel->user_id)->firstOrFail();
+            $server = Server::where('id', $tunnel->server_id)->first();
+            $username = $tunnel->username ?? '';
+
+            if (! empty($username)) {
+                $this->routerOsRepository->enablePppSecret($server, $username);
+            }
+            $tunnel->update([
+                'status' => 'aktif',
+                'expired' => now()->addMonth(),
+            ]);
+            Transaction::create([
+                'user_id' => $tunnel->user_id,
+                'amount' => 5000,
+                'reference' => 'RTUN'.time(),
+                'merchant_ref' => 'RTINV-'.time(),
+                'type' => 'Perpanjang Layanan Tunnel',
+                'status' => 'PAID',
+            ]);
+            $userBalance->create([
+                'user_id' => $tunnel->user_id,
+                'balance' => -5000,
+            ]);
+            Toast::title('Success.')
+                ->message('Tunnel berhasil di perpanjang.')
+                ->backdrop()
+                ->autoDismiss(2);
+
+            return back();
+        } catch (ModelNotFoundException $e) {
+            // Handle the case where the UserBalance or Server model is not found
+            \Log::error("Error renewing tunnel: Model not found: {$e->getMessage()}");
+            abort(404);
+        } catch (\Exception $e) {
+            // Handle any other errors that may occur
+            \Log::error("Error renewing tunnel: {$e->getMessage()}");
+            Toast::title('Error.')
+                ->message('Terjadi kesalahan saat memperpanjang tunnel.')
+                ->warning()
+                ->backdrop()
+                ->autoDismiss(2);
+
+            return back();
+        }
+    }
+
 }

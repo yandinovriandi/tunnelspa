@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use App\Models\UserBalace;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use ProtoneMedia\Splade\Facades\Splade;
 
 class TripayCallbackController extends Controller
 {
@@ -69,8 +70,8 @@ class TripayCallbackController extends Controller
             switch ($status) {
                 case 'PAID':
                     $transaction->update(['status' => 'PAID']);
-                    broadcast(new TransactionPaid($transaction));
-                    break;
+                        broadcast(new TransactionPaid($transaction));
+                     break;
 
                 case 'EXPIRED':
                     $transaction->update(['status' => 'EXPIRED']);

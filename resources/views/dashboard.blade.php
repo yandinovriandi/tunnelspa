@@ -4,6 +4,8 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
+{{--    <x-splade-event private channel="transaction.paid" listen="TransactionPaid" />--}}
+
     <x-splade-lazy>
         <x-slot:placeholder>
             <div class="flex justify-center items-center h-12 mt-6">
@@ -14,7 +16,7 @@
                 <span class="sr-only">Loading...</span>
             </div>
         </x-slot:placeholder>
-    <div class="py-12">
+        <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
@@ -64,7 +66,6 @@
                             </span>
                         </Link>
                     </div>
-
                         <x-splade-table  :for="$transactions" class="mt-6">
                             @cell('reference',$transaction)
                             <span class="bg-green-100 capitalize hover:cursor-pointer hover:text-green-700 font-semibold text-green-500 rounded-md px-4 py-0.5">{{$transaction->reference}}</span>

@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.1",
         "ext-curl": "*",
+        "defstudio/telegraph": "^1.34",
         "evilfreelancer/routeros-api-php": "^1.5",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",

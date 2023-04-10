@@ -72,12 +72,14 @@ class TransactionController extends Controller
     /**
      * Display the specified resource.
      */
+
     public function show($reference)
     {
         return view('balance.show', [
             'detail' => $this->tripayRepository->detailTransaction($reference),
         ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
