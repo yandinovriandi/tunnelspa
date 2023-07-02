@@ -2,21 +2,35 @@
 
 [![Demo Tunnel SPA Laravel SPLADE](https://i.ytimg.com/an_webp/dUexNYG20l0/mqdefault_6s.webp?du=3000&sqp=CLeWhaUG&rs=AOn4CLD-kEN4Vd3K8IO4y4YYhq1ItpSZlg)](https://www.youtube.com/embed/dUexNYG20l0)
 
-```composer i```
+```bash 
+composer i
+```
 
-```npm i```
+```bash 
+npm i
+```
 
-```cp .env.example .env```
+```bash 
+cp .env.example .env
+```
 
-```php artisan key:generate```
+```bash
+php artisan key:generate
+```
 
-```php artisan migrate```
+```bash
+php artisan migrate
+```
 
-```php artisan migrate:fresh --seed```
+```bash
+php artisan migrate:fresh --seed
+```
 
 Cek email user id 1 untuk login password:password
 
-```npm run build```
+```bash
+npm run build
+```
 
 Note!!!
 
